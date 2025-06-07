@@ -1,49 +1,216 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Proyecto.UI</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Proyecto.UI.styles.css" asp-append-version="true" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Botero Beauty</title>
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            background-color: #f8f9fb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .left-sidebar {
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(180deg, #b974db 0%, #993bb9 100%) !important;
+            color: #fff;
+            padding: 0;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: all 0.4s ease;
+        }
+
+        .scroll-sidebar {
+            height: 100%;
+            padding: 30px 20px;
+            background: none !important;
+        }
+
+        .sidebar-nav {
+            background: transparent !important;
+        }
+
+        #sidebarnav {
+            background: transparent !important;
+        }
+
+        .sidebar-logo {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #d3b6eb;
+        }
+
+            .sidebar-logo img {
+                max-width: 120px;
+                height: auto;
+                display: block;
+                margin: 0 auto 10px;
+            }
+
+            .sidebar-logo span {
+                display: block;
+                font-size: 18px;
+                font-weight: 700;
+                color: #fff;
+            }
+
+        .sidebar-nav .nav-small-cap {
+            font-size: 13px;
+            color: #fff;
+            margin-bottom: 15px;
+            margin-top: 5px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-item {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-link {
+            text-decoration: none;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border-left: 2px solid transparent;
+        }
+
+            .sidebar-link:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+                color: #fff;
+                transform: translateX(3px);
+                box-shadow: 0 4px 12px rgba(139, 76, 175, 0.12);
+                border-left: 2px solid #fff;
+            }
+
+        .sidebar-item.selected > .sidebar-link {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-left: 2px solid #fff;
+        }
+
+        .text-danger {
+            color: #ffd6dd !important;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Proyecto.UI</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+
+    <div id="main-wrapper">
+        <aside class="left-sidebar">
+            <div class="scroll-sidebar">
+                <div class="sidebar-logo">
+                    <img src="https://www.boterobeauty.com/cdn/shop/files/logo2.png?v=1718741803&width=150" alt="Botero Beauty Logo">
+                    <span>Botero Beauty</span>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="nav-small-cap">MENÚ PRINCIPAL</li>
+                        <li class="sidebar-item selected">
+                            <a class="sidebar-link" href="#">
+                                <i class="fas fa-home"></i>
+                                <span class="hide-menu">Inicio</span>
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="#">
+                                <i class="fas fa-box"></i>
+                                <span class="hide-menu">Catálogo</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="#">
+                                <i class="fas fa-magic"></i>
+                                <span class="hide-menu">Maquillaje</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="#">
+                                <i class="fas fa-spa"></i>
+                                <span class="hide-menu">Cuidado de la piel</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="#">
+                                <i class="fas fa-seedling"></i>
+                                <span class="hide-menu">Rutinas</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="#">
+                                <i class="fas fa-tags"></i>
+                                <span class="hide-menu">Promociones</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="#">
+                                <i class="fas fa-star"></i>
+                                <span class="hide-menu">Reseñas</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="#">
+                                <i class="fas fa-user"></i>
+                                <span class="hide-menu">Perfil</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link text-danger" href="#">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span class="hide-menu">Cerrar sesión</span>
+                            </a>
                         </li>
                     </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <div class="page-wrapper" style="margin-left: 250px;">
+            <div class="container-fluid">
+                <div class="row">
+                    @RenderBody()
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+            <footer class="footer text-center">
+                Todos los derechos reservados por Botero Beauty.
+            </footer>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Proyecto.UI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/jquery.min.js"></script>
+    <script src="~/lib/popper.min.js"></script>
+    <script src="~/lib/bootstrap.min.js"></script>
+    <script src="~/lib/app.min.js"></script>
+    <script src="~/lib/app.init.js"></script>
+    <script src="~/lib/app-style-switcher.js"></script>
+    <script src="~/lib/perfect-scrollbar.jquery.min.js"></script>
+    <script src="~/lib/sparkline.js"></script>
+    <script src="~/lib/waves.js"></script>
+    <script src="~/lib/sidebarmenu.js"></script>
+    <script src="~/lib/custom.min.js"></script>
 </body>
 </html>
