@@ -36,3 +36,46 @@ WHERE CorreoElectronico = @CorreoElectronico
   AND Contrasenna = @Contrasenna;
 
 END
+
+CREATE PROCEDURE GetUserProfileData
+	@IdUsuario BIGINT
+AS
+BEGIN
+	SELECT	IdUsuario,
+			cedula,
+			Nombre,
+			CorreoElectronico,
+			telefono,
+			fotografia,
+			activo
+	  FROM	dbo.Usuario
+	WHERE	IdUsuario = @IdUsuario
+END
+
+CREATE PROCEDURE UpdateUserProfileData
+	@IdUsuario int,
+    @Cedula varchar(20),
+	@Nombre varchar(100),
+	@Apellidos varchar(100),
+	@CorreoElectronico varchar(100),
+	@Telefono varchar(20),
+	@Fotografia varbinary(max)
+AS
+BEGIN
+
+	IF NOT EXISTS(SELECT 1 FROM Usuario
+				  WHERE cedula = @Cedula
+					AND	CorreoElectronico = @CorreoElectronico
+					AND IdUsuario != @IdUsuario)
+	BEGIN
+
+		UPDATE dbo.Usuario
+		SET cedula = @Cedula,
+			Nombre = @Nombre,
+			apellidos = @Apellidos,
+			CorreoElectronico = @CorreoElectronico,
+			telefono = @Telefono,
+			fotografia = @Fotografia
+		WHERE IdUsuario = @IdUsuario
+	END
+END
