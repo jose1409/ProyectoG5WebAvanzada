@@ -1,0 +1,87 @@
+﻿@model Proyecto.UI.Models.Autenticacion
+@{
+    Layout = "_LayoutExterno";
+}
+
+
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(../../assets/images/background/login-register.jpg) no-repeat center center;">
+    <div class="auth-box on-sidebar">
+        <div>
+            <div class="logo">
+                <span class="db"><img src="https://www.boterobeauty.com/cdn/shop/files/logo2.png?v=1718741803&width=150" alt="logo" /></span>
+                <h5 class="font-medium m-b-20">Sign Up to Admin</h5>
+            </div>
+            <!-- ASP.NET Core Form -->
+            <div class="row">
+                <div class="col-12">
+                    <form asp-action="Registro" class="form-horizontal m-t-20">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <input asp-for="Cedula" class="form-control form-control-lg" placeholder="Cédula" onkeyup="ConsultarPersonaApi();">
+                                <span asp-validation-for="Cedula" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <input asp-for="Nombre" class="form-control form-control-lg" placeholder="Nombre" />
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <input asp-for="Apellidos" class="form-control form-control-lg" placeholder="Apellidos" />
+                                <span asp-validation-for="Apellidos" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <input asp-for="CorreoElectronico" class="form-control form-control-lg" placeholder="Correo Electrónico" />
+                                <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <input asp-for="Contrasenna" type="password" class="form-control form-control-lg" placeholder="Contraseña" />
+                                <span asp-validation-for="Contrasenna" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                    <label class="custom-control-label" for="customCheck1">Acepto todos los <a href="javascript:void(0)">términos</a></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <div class="col-xs-12 p-b-20">
+                                <button type="submit" class="btn btn-block btn-lg btn-info">REGISTRARSE</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-b-0 m-t-10">
+                            <div class="col-sm-12 text-center">
+                                ¿Ya tienes una cuenta? <a href="@Url.Action("Index","Autenticacion")" class="text-info m-l-5"><b>Iniciar sesión</b></a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<script src="~/lib/jquery.min.js"></script>
+<script src="~/js/index.js"></script>
+<script src="~/js/comunes.js"></script>

@@ -79,3 +79,22 @@ BEGIN
 		WHERE IdUsuario = @IdUsuario
 	END
 END
+
+CREATE PROCEDURE [dbo].[ValidarCorreo]
+    @CorreoElectronico VARCHAR(100)
+AS
+BEGIN
+    SELECT CorreoElectronico, idUsuario
+    FROM dbo.Usuario
+    WHERE CorreoElectronico = @CorreoElectronico
+END
+
+CREATE PROCEDURE [dbo].[ActualizarContrasenna]
+    @IdUsuario INT,
+    @Contrasenna VARCHAR(255)
+AS
+BEGIN
+    UPDATE dbo.Usuario
+    SET Contrasenna = @Contrasenna
+    WHERE IdUsuario = @IdUsuario
+END

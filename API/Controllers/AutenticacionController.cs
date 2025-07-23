@@ -25,8 +25,6 @@ namespace API.Controllers
         [AllowAnonymous]
         public IActionResult Registro(Autenticacion autenticacion)
         {
-            //Encriptar la contraseña antes de guardarla (Se hace en el front pero se hace temporalmente
-            autenticacion.Contrasenna = _utilitarios.Encrypt(autenticacion.Contrasenna);
 
             int resultado = _autenticacionRepository.Register(autenticacion);
             if (resultado > 0)
@@ -41,8 +39,6 @@ namespace API.Controllers
         [AllowAnonymous]
         public IActionResult Login(Autenticacion autenticacion)
         {
-            //Encriptar la contraseña antes de guardarla (Se hace en el front pero se hace temporalmente
-            autenticacion.Contrasenna = _utilitarios.Encrypt(autenticacion.Contrasenna);
             var resultado = _autenticacionRepository.Login(autenticacion);
             if (resultado != null)
             {
