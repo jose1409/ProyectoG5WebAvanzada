@@ -1,0 +1,108 @@
+﻿  body
+
+{
+    margin: 0;
+    background-color: #f8f9fb;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.left-sidebar {
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(180deg, #b974db 0%, #993bb9 100%) !important;
+    color: #fff;
+    padding: 0;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: all 0.4s ease;
+}
+
+.scroll-sidebar {
+    height: 100%;
+    padding: 30px 20px;
+    background: none !important;
+}
+
+.sidebar-nav {
+    background: transparent !important;
+}
+
+#sidebarnav {
+    background: transparent !important;
+}
+
+.sidebar-logo {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #d3b6eb;
+}
+
+    .sidebar-logo img {
+        max-width: 120px;
+        height: auto;
+        display: block;
+        margin: 0 auto 10px;
+    }
+
+    .sidebar-logo span {
+        display: block;
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+    }
+
+.sidebar-nav .nav-small-cap {
+    font-size: 13px;
+    color: #fff;
+    margin-bottom: 15px;
+    margin-top: 5px;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-item {
+    margin-bottom: 10px;
+}
+
+.sidebar-link {
+    text-decoration: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border-left: 2px solid transparent;
+}
+
+    .sidebar-link:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        transform: translateX(3px);
+        box-shadow: 0 4px 12px rgba(139, 76, 175, 0.12);
+        border-left: 2px solid #fff;
+    }
+
+.sidebar-item.selected > .sidebar-link {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-left: 2px solid #fff;
+}
+
+.text-danger {
+    color: #ffd6dd !important;
+}
+
