@@ -32,6 +32,11 @@ namespace Proyecto.UI.Controllers
         [HttpGet]
         public IActionResult Principal()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
+            {
+                return RedirectToAction("Index", "Autenticacion");
+            }
+
             return View();
         }
 

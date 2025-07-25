@@ -4,6 +4,8 @@ using API.Repository.AutenticacionRepository;
 using API.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,8 @@ builder.Services.AddScoped<IUtilitarios, Utilitarios>();
 
 //Inyeccion de Repositories
 builder.Services.AddScoped<IAutenticacionRepository, AutenticacionRepository>();
+builder.Services.AddScoped<IDbConnection>(sp =>
+    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //Configuracion JWT
 var llaveSegura = builder.Configuration["Start:LlaveSegura"]!.ToString();
