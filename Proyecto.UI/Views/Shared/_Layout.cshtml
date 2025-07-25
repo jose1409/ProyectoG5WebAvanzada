@@ -73,6 +73,13 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
+                            <a class="sidebar-link" href="/Home/Historia">
+                                <i class="fas fa-heart"></i>
+                                <span class="hide-menu">Nuestra Historia</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
                             <a class="sidebar-link text-danger" href="/Autenticacion/CerrarSesion">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span class="hide-menu">Cerrar sesión</span>
@@ -109,5 +116,7 @@
     <script src="~/lib/sidebarmenu.js"></script>
     <script src="~/lib/custom.min.js"></script>
     @RenderSection("Scripts", required: false)
+    @RenderSection("Styles", required: false)
+
 </body>
 </html>
