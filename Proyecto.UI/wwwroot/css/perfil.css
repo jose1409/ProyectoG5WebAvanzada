@@ -41,9 +41,13 @@
     outline: none;
 }
 
+
 .perfil-form .preview-container {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 30px;
+    width: 100%;
 }
 
     .perfil-form .preview-container img {
