@@ -1,23 +1,27 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿document.addEventListener("DOMContentLoaded", () => {
     const preview = document.getElementById("previewFoto");
-    if (preview && preview.src && !preview.src.endsWith("#")) {
+
+    // Mostrar la imagen si ya existe y no es solo "#"
+    if (preview?.src && !preview.src.endsWith("#")) {
         preview.style.display = "block";
+    } else {
+        preview.style.display = "none";
     }
 });
 
 function previewImage(input) {
-    const archivo = input.files[0];
+    const file = input.files[0];
     const preview = document.getElementById("previewFoto");
 
-    if (archivo && archivo.type.startsWith("image/")) {
-        const lector = new FileReader();
+    if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
 
-        lector.onload = function (e) {
+        reader.onload = (e) => {
             preview.src = e.target.result;
             preview.style.display = "block";
         };
 
-        lector.readAsDataURL(archivo);
+        reader.readAsDataURL(file);
     } else {
         preview.src = "#";
         preview.style.display = "none";
