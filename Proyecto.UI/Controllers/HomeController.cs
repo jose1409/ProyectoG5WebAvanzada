@@ -34,6 +34,10 @@ namespace Proyecto.UI.Controllers
         {
             return View();
         }
+        public ActionResult Historia()
+        {
+            return View();
+        }
 
     }
 }
