@@ -14,5 +14,8 @@ namespace Proyecto.UI.Models
         public byte[]? Fotografia { get; set; }
         public bool? Activo { get; set; }
         public string? Token { get; set; }
+
+        //Dato Para visualizar y antes de convertir
+        public IFormFile FotografiaFile { get; set; }
     }
 }

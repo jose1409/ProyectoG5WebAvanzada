@@ -36,5 +36,14 @@ namespace Proyecto.UI.Utils
 
             return Convert.ToBase64String(array);
         }
+
+        public byte[] ConvertImageToBytes(IFormFile file)
+        {
+            using (var ms = new MemoryStream())
+            {
+                file.CopyTo(ms);
+                return ms.ToArray(); // esto puedes guardar en varbinary(MAX)
+            }
+        }
     }
 }
