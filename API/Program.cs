@@ -57,6 +57,17 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirTodo", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,6 +78,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("PermitirTodo");
 
 app.UseAuthorization();
 
