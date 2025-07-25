@@ -1,0 +1,56 @@
+﻿.contenedor-perfil {
+    padding: 40px;
+    max-width: 700px;
+    margin: auto;
+}
+
+.titulo-perfil {
+    color: #6b2484;
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.card-perfil {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+}
+
+.campo {
+    margin-bottom: 20px;
+}
+
+    .campo label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .campo input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+.acciones {
+    text-align: right;
+}
+
+.btn-guardar {
+    background-color: #b455d5;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-guardar:hover {
+        background-color: #993bb9;
+        cursor: pointer;
+    }
