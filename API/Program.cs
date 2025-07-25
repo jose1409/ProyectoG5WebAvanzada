@@ -1,6 +1,8 @@
 using System.Text;
 using System.Text.Json;
 using API.Repository.AutenticacionRepository;
+using API.Repository.CategoriaRepository;
+using API.Repository.ProductoRepository;
 using API.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -19,6 +21,8 @@ builder.Services.AddScoped<IUtilitarios, Utilitarios>();
 
 //Inyeccion de Repositories
 builder.Services.AddScoped<IAutenticacionRepository, AutenticacionRepository>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 
 //Configuracion JWT
 var llaveSegura = builder.Configuration["Start:LlaveSegura"]!.ToString();

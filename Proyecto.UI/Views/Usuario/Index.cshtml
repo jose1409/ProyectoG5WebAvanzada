@@ -19,6 +19,8 @@
 
     <form class="perfil-form" asp-controller="Usuario" asp-action="Index" enctype="multipart/form-data">
 
+        <input type="hidden" asp-for="Fotografia" />
+
         <!-- Foto de perfil centrada -->
         <div class="preview-container">
             <img id="previewFoto" src="@fotoBase64" alt="Previsualización" style="@estilo" />

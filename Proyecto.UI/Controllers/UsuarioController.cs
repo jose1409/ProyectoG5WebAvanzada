@@ -45,8 +45,12 @@ namespace Proyecto.UI.Controllers
         [HttpPost]
         public IActionResult Index(Autenticacion autenticacion)
         {
-            //Convertir PNG to Bytes
-            autenticacion.Fotografia = _utilitarios.ConvertImageToBytes(autenticacion.FotografiaFile);
+            //Si no se selecciona una nueva imagen entonces devolvera la misma que ya existe
+            if (autenticacion.FotografiaFile != null)
+            {
+                //Convertir PNG to Bytes
+                autenticacion.Fotografia = _utilitarios.ConvertImageToBytes(autenticacion.FotografiaFile);
+            }
 
             using (var http = _http.CreateClient())
             {

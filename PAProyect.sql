@@ -44,6 +44,7 @@ BEGIN
 	SELECT	IdUsuario,
 			cedula,
 			Nombre,
+			apellidos,
 			CorreoElectronico,
 			telefono,
 			fotografia,
@@ -97,4 +98,24 @@ BEGIN
     UPDATE dbo.Usuario
     SET Contrasenna = @Contrasenna
     WHERE IdUsuario = @IdUsuario
+END
+
+
+CREATE PROCEDURE ObtenerCategorias
+AS
+BEGIN
+    SELECT * FROM Categoria
+END 
+
+CREATE PROCEDURE ObtenerProductos
+AS
+BEGIN
+    SELECT * FROM Producto
+END 
+
+CREATE PROCEDURE ObtenerProductosFiltradoXCategoria
+    @IdCategoria INT
+AS
+BEGIN
+    SELECT * FROM Producto WHERE id_categoria = @IdCategoria AND activo = 1;
 END
