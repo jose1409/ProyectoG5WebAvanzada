@@ -49,7 +49,9 @@ CREATE TABLE Usuario (
     Contrasenna VARCHAR(255) NOT NULL,
     telefono VARCHAR(20),
     fotografia VARBINARY(MAX),
-    activo BIT NOT NULL DEFAULT 1
+    activo BIT NOT NULL DEFAULT 1,
+	id_rol INT,
+    FOREIGN KEY (id_rol) REFERENCES Rol(id_rol)
 );
 GO
 
@@ -57,8 +59,6 @@ GO
 CREATE TABLE Rol (
     id_rol INT IDENTITY(1,1) PRIMARY KEY,
     nombre VARCHAR(20),
-    id_usuario INT,
-    FOREIGN KEY (id_usuario) REFERENCES Usuario(idUsuario)
 );
 GO
 

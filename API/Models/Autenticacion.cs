@@ -12,5 +12,6 @@
         public byte[]? Fotografia { get; set; }
         public bool? Activo { get; set; }
         public string? Token { get; set; }
+        public string? IdRol { get; set; }
     }
 }
