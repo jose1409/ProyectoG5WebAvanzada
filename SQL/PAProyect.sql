@@ -261,23 +261,17 @@ GO
 
 
 -- Obtener la información de la empresa
-IF OBJECT_ID('sp_GetCompanyInfo', 'P') IS NOT NULL DROP PROCEDURE sp_GetCompanyInfo;
-GO
-
 CREATE OR ALTER PROCEDURE sp_GetCompanyInfo
 AS
 BEGIN
-    SELECT TOP 1 * FROM CompanyInfo ORDER BY Id DESC;
+    SELECT TOP 1 * FROM CompanyInfo WHERE IsActive = 1 ORDER BY Id DESC;
 END
 GO
 
 -- Obtener miembros activos del equipo
-IF OBJECT_ID('sp_GetTeamMembers', 'P') IS NOT NULL DROP PROCEDURE sp_GetTeamMembers;
-GO
-
 CREATE OR ALTER PROCEDURE sp_GetTeamMembers
 AS
 BEGIN
-    SELECT * FROM TeamMember
+    SELECT * FROM TeamMember WHERE IsActive = 1 ORDER BY DisplayOrder;
 END
 GO
