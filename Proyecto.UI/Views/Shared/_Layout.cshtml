@@ -9,12 +9,14 @@
     <title>Botero Beauty</title>
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
     <style>
         body {
             margin: 0;
             background-color: #f8f9fb;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
 
         .left-sidebar {
             width: 250px;
@@ -133,6 +135,7 @@
                     }
 
                     <ul id="sidebarnav">
+
                         <li class="nav-small-cap d-flex justify-content-between align-items-center">
                             <span>MENÚ PRINCIPAL</span>
                             <span class="d-flex align-items-center">
@@ -146,9 +149,9 @@
                                 </a>
                             </span>
                         </li>
-
-                        <li class="sidebar-item @(currentController == "Home" && currentAction == "Principal" ? "selected" : "")">
-                            <a class="sidebar-link" href="@Url.Action("Principal", "Home")">
+                        <li class="nav-small-cap">MENÚ PRINCIPAL</li>
+                        <li class="sidebar-item selected">
+                            <a class="sidebar-link" href="/Home/Index">
                                 <i class="fas fa-home"></i>
                                 <span class="hide-menu">Inicio</span>
                             </a>
@@ -222,12 +225,13 @@
             </div>
         </aside>
 
-        <div class="page-wrapper" style="margin-left: 250px;">
-            <div class="container-fluid">
-                <div class="row">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="contenido-centrado">
                     @RenderBody()
                 </div>
             </div>
+        </div>
 
             <footer class="footer text-center">
                 Todos los derechos reservados por Botero Beauty.
@@ -246,8 +250,6 @@
     <script src="~/lib/waves.js"></script>
     <script src="~/lib/sidebarmenu.js"></script>
     <script src="~/lib/custom.min.js"></script>
-    @RenderSection("Scripts", required: false)
-    @RenderSection("Styles", required: false)
 
     <script>
         $(function () {
