@@ -1,26 +1,35 @@
 using System.Text;
 using System.Text.Json;
+using API.Repository;
 using API.Repository.AutenticacionRepository;
 using API.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
+using Microsoft.Data.SqlClient;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//Inyeccion de Utils
+// Inyeccion de Utils
 builder.Services.AddScoped<IUtilitarios, Utilitarios>();
 
-//Inyeccion de Repositories
+// Inyeccion de Repositories
 builder.Services.AddScoped<IAutenticacionRepository, AutenticacionRepository>();
+builder.Services.AddScoped<IAboutRepository, AboutRepository>();
 
-//Configuracion JWT
+// **Inyeccion de IDbConnection para Dapper**
+builder.Services.AddScoped<IDbConnection>(sp =>
+    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configuracion JWT
 var llaveSegura = builder.Configuration["Start:LlaveSegura"]!.ToString();
 
 builder.Services.AddAuthentication(opt =>
@@ -57,6 +66,7 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 
+// Configuración CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirTodo", policy =>
@@ -66,7 +76,6 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
-
 
 var app = builder.Build();
 
@@ -81,6 +90,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("PermitirTodo");
 
+app.UseAuthentication(); // Aseguramos que la autenticación JWT esté activa
 app.UseAuthorization();
 
 app.MapControllers();

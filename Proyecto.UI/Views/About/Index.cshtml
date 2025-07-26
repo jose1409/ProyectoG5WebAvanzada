@@ -1,0 +1,39 @@
+﻿@model Proyecto.UI.ViewModels.AboutViewModel
+
+<section class="hero-banner">
+    <div class="hero-overlay">
+        <h1 class="hero-title">TU BELLEZA ES NUESTRA PRIORIDAD</h1>
+    </div>
+</section>
+
+
+<!-- Sección Quienes somos -->
+<section class="container my-5 text-center">
+    <h2 class="fw-bold mb-4">@Model?.Company?.Title</h2>
+    <p class="lead" style="max-width:700px; margin:0 auto;">
+        @Html.Raw(Model?.Company?.HtmlContent)
+    </p>
+</section>
+
+<!-- Sección Miembros del equipo -->
+<section class="py-5" style="background: linear-gradient(180deg,#d3b1d8 0%, #ffffff 100%);">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5">Miembros de nuestro equipo</h2>
+        <div class="row justify-content-center g-4">
+            @if (Model?.Team != null && Model.Team.Any())
+            {
+                @foreach (var m in Model.Team)
+                {
+                    <div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-center">
+                        @await Html.PartialAsync("_TeamCard", m)
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-center text-muted">No hay miembros de equipo registrados.</p>
+            }
+        </div>
+    </div>
+</section>
+
