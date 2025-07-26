@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using API.Repository;
 using API.Repository.AutenticacionRepository;
 using API.Repository.CategoriaRepository;
 using API.Repository.ProductoRepository;
@@ -10,27 +11,36 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using API.Repository.RutinaRepository;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRutinaRepository, RutinaRepository>();
 
-//Inyeccion de Utils
+// Inyeccion de Utils
 builder.Services.AddScoped<IUtilitarios, Utilitarios>();
 
-//Inyeccion de Repositories
+// Inyeccion de Repositories
 builder.Services.AddScoped<IAutenticacionRepository, AutenticacionRepository>();
+
+builder.Services.AddScoped<IAboutRepository, AboutRepository>();
+
 builder.Services.AddScoped<IDbConnection>(sp =>
     new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 
-//Configuracion JWT
+
+// **Inyeccion de IDbConnection para Dapper**
+builder.Services.AddScoped<IDbConnection>(sp =>
+    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configuracion JWT
 var llaveSegura = builder.Configuration["Start:LlaveSegura"]!.ToString();
 
 builder.Services.AddAuthentication(opt =>
@@ -67,6 +77,7 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 
+// Configuraci�n CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirTodo", policy =>
@@ -76,7 +87,6 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
-
 
 var app = builder.Build();
 
@@ -91,6 +101,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("PermitirTodo");
 
+app.UseAuthentication(); // Aseguramos que la autenticaci�n JWT est� activa
 app.UseAuthorization();
 
 app.MapControllers();

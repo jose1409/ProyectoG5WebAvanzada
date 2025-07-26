@@ -1,10 +1,17 @@
 ﻿@model Proyecto.UI.Models.Autenticacion
+
 @{
     Layout = "_LayoutExterno";
 }
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 
+@{
+
+    Layout = "_LayoutExterno";
+
+
+}
 
 <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(/img/login-register.jpg) no-repeat center center;">
     <div class="auth-box on-sidebar">
@@ -87,6 +94,7 @@
                 </div>
             </div>
 
+
 <div class="auth-wrapper">
     <div class="auth-box">
         <div class="logo">
@@ -94,7 +102,6 @@
                 <img src="https://www.boterobeauty.com/cdn/shop/files/logo2.png?v=1718741803&width=160" alt="logo" />
             </span>
             <h5 class="font-medium m-b-20">Crea tu cuenta</h5>
-
         </div>
 
         <form asp-action="Registro" class="form-horizontal mt-4">
@@ -146,4 +153,7 @@
     <script src="~/lib/jquery.min.js"></script>
     <script src="~/js/index.js"></script>
     <script src="~/js/comunes.js"></script>
+
 }
+
+

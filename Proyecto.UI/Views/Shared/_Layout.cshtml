@@ -9,126 +9,58 @@
     <title>Botero Beauty</title>
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <link href="~/css/styles.css" rel="stylesheet" />
-    <link href="~/css/styles.css" rel="stylesheet" />
-    @RenderSection("Scripts", required: false)
-    @RenderSection("Styles", required: false)
-    <style>
-        body {
-            margin: 0;
-            background-color: #f8f9fb;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
 
-
-        .left-sidebar {
-            width: 250px;
-            height: 100vh;
-            background: linear-gradient(180deg, #b974db 0%, #993bb9 100%) !important;
-            color: #fff;
-            padding: 0;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
-            position: fixed;
-            top: 0;
-            left: 0;
-            display: flex;
-            flex-direction: column;
-            z-index: 1000;
-            transition: all 0.4s ease;
-        }
-
-        .scroll-sidebar {
-            height: 100%;
-            padding: 30px 20px;
-            background: none !important;
-        }
-
-        .sidebar-logo {
-            text-align: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #d3b6eb;
-        }
-
-        .sidebar-logo img {
-            max-width: 120px;
-            height: auto;
-            display: block;
-            margin: 0 auto 10px;
-        }
-
-        .sidebar-logo span {
-            display: block;
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .sidebar-nav, #sidebarnav {
-            background: transparent !important;
-        }
-
-        .sidebar-nav .nav-small-cap,
-        .nav-small-cap span,
-        .nav-small-cap a,
-        .nav-small-cap i {
-            font-size: 13px;
-            color: #ffffff !important;
-            opacity: 1 !important;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .sidebar-nav ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar-item {
-            margin-bottom: 10px;
-        }
-
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 600;
-            color: #fff;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            border-left: 2px solid transparent;
-            outline: none !important;
-        }
-
-        .sidebar-link:hover,
-        .sidebar-link:focus,
-        .sidebar-link:focus-visible {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: translateX(3px);
-            border-left: 2px solid transparent !important;
-            box-shadow: none !important;
-            outline: none !important;
-        }
-
-        .sidebar-item.selected > .sidebar-link {
-            background-color: rgba(255, 255, 255, 0.3);
-            border-left: 2px solid #fff !important;
-        }
-
-        .text-danger {
-            color: #ffd6dd !important;
-        }
-    </style>
+    <link href="~/css/layout-custom.css" rel="stylesheet" />
 </head>
 <body>
-    <div id="main-wrapper">
+
+    <!-- HEADER SUPERIOR -->
+    <header class="main-header">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="header-logo">
+                <img src="https://www.boterobeauty.com/cdn/shop/files/logo2.png?v=1718741803&width=150" alt="Botero Beauty Logo" />
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="header-search">
+                <select class="search-category">
+                    <option>Productos</option>
+                    <option>Servicios</option>
+                </select>
+                <input type="text" placeholder="¿Qué estas buscando?" class="search-input" />
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <!-- Iconos sociales -->
+            <div class="header-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+
+        <!-- Menú horizontal -->
+        <nav class="header-nav">
+            <ul>
+                <li><a href="#">Categorías</a></li>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Tienda</a></li>
+                <li><a href="#">Servicios</a></li>
+                <li><a asp-controller="About" asp-action="Index">Sobre nosotros</a></li>
+                <li><a href="#">Contáctenos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div id="main-wrapper" style="margin-top: 120px;">
+
         <aside class="left-sidebar">
             <div class="scroll-sidebar">
                 <div class="sidebar-logo">
-                    <img src="https://www.boterobeauty.com/cdn/shop/files/logo2.png?v=1718741803&width=150" alt="Botero Beauty Logo">
+                    <img src="https://www.boterobeauty.com/cdn/shop/files/logo2.png?v=1718741803&width=150" alt="Botero Beauty Logo" />
                     <span>Botero Beauty</span>
                 </div>
                 <nav class="sidebar-nav">
@@ -204,9 +136,21 @@
                         </li>
 
                         <li class="sidebar-item">
+
+                            <a class="sidebar-link" asp-controller="About" asp-action="Index">
+                                <i class="fas fa-users"></i>
+                                <span class="hide-menu">Sobre nosotros</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/Usuario/Index">
+                                <i class="fas fa-user"></i>
+                                <span class="hide-menu">Perfil</span>
+
                             <a class="sidebar-link" href="/Home/Historia">
                                 <i class="fas fa-heart"></i>
                                 <span class="hide-menu">Nuestra Historia</span>
+
                             </a>
                         </li>
 
@@ -215,16 +159,22 @@
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span class="hide-menu">Cerrar sesión</span>
                             </a>
-
                         </li>
                     </ul>
                 </nav>
             </div>
         </aside>
 
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="page-wrapper" style="margin-left: 250px;">
+            <div class="container-fluid">
+                <div class="row">
+
         <div class="container-fluid">
             <div class="row">
                 <div class="contenido-centrado">
+
                     @RenderBody()
                 </div>
             </div>
