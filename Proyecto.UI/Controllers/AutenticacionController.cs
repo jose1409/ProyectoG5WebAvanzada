@@ -22,7 +22,7 @@ namespace Proyecto.UI.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
             {
-                return RedirectToAction("Principal", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             return View();
@@ -46,7 +46,7 @@ namespace Proyecto.UI.Controllers
                     HttpContext.Session.SetString("Nombre", datos?.Contenido?.Nombre!);
                     HttpContext.Session.SetString("JWT", datos?.Contenido?.Token!);
 
-                    return RedirectToAction("Principal", "Home");  //Configurar Ventana principal
+                    return RedirectToAction("Index", "Home");  //Configurar Ventana principal
                 }
                 else
                 {
@@ -62,7 +62,7 @@ namespace Proyecto.UI.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
             {
-                return RedirectToAction("Principal", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             return View();
@@ -107,7 +107,7 @@ namespace Proyecto.UI.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
             {
-                return RedirectToAction("Principal", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             return View();
