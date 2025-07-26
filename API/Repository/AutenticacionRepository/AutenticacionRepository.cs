@@ -65,5 +65,27 @@ namespace API.Repository.AutenticacionRepository
                 return resultadoActuallizacion;
             }
         }
+
+        public bool ExisteCedula(string cedula)
+        {
+            using var connection = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value);
+            connection.Open();
+            var query = "SELECT COUNT(*) FROM Usuario WHERE Cedula = @Cedula";
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Cedula", cedula);
+            var count = (int)command.ExecuteScalar();
+            return count > 0;
+        }
+
+        public bool ExisteCorreo(string correo)
+        {
+            using var connection = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value);
+            connection.Open();
+            var query = "SELECT COUNT(*) FROM Usuario WHERE CorreoElectronico = @Correo";
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Correo", correo);
+            var count = (int)command.ExecuteScalar();
+            return count > 0;
+        }
     }
 }

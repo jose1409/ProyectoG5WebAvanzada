@@ -1,19 +1,124 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <title>Botero Beauty</title>
-    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <link href="~/css/layout-custom.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            background-color: #f8f9fb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
+        .left-sidebar {
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(180deg, #b974db 0%, #993bb9 100%) !important;
+            color: #fff;
+            padding: 0;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: all 0.4s ease;
+        }
+
+        .scroll-sidebar {
+            height: 100%;
+            padding: 30px 20px;
+            background: none !important;
+        }
+
+        .sidebar-logo {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #d3b6eb;
+        }
+
+        .sidebar-logo img {
+            max-width: 120px;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        .sidebar-logo span {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .sidebar-nav, #sidebarnav {
+            background: transparent !important;
+        }
+
+        .sidebar-nav .nav-small-cap,
+        .nav-small-cap span,
+        .nav-small-cap a,
+        .nav-small-cap i {
+            font-size: 13px;
+            color: #ffffff !important;
+            opacity: 1 !important;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-item {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border-left: 2px solid transparent;
+            outline: none !important;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link:focus,
+        .sidebar-link:focus-visible {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(3px);
+            border-left: 2px solid transparent !important;
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+        .sidebar-item.selected > .sidebar-link {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-left: 2px solid #fff !important;
+        }
+
+        .text-danger {
+            color: #ffd6dd !important;
+        }
+    </style>
 </head>
 <body>
-
     <div id="main-wrapper">
         <aside class="left-sidebar">
             <div class="scroll-sidebar">
@@ -22,56 +127,82 @@
                     <span>Botero Beauty</span>
                 </div>
                 <nav class="sidebar-nav">
+                    @{
+                        var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+                        var currentAction = ViewContext.RouteData.Values["Action"]?.ToString();
+                    }
+
                     <ul id="sidebarnav">
-                        <li class="nav-small-cap">MENÚ PRINCIPAL</li>
-                        <li class="sidebar-item selected">
-                            <a class="sidebar-link" href="#">
+                        <li class="nav-small-cap d-flex justify-content-between align-items-center">
+                            <span>MENÚ PRINCIPAL</span>
+                            <span class="d-flex align-items-center">
+                                <span class="mx-2 text-white">|</span>
+                                <a href="@Url.Action("Index", "Carrito")"
+                                class="text-white position-relative"
+                                data-toggle="tooltip" data-placement="top" title="Ver carrito">
+                                    <i class="fas fa-bag-shopping fa-lg"></i>
+                                    <span class="badge badge-danger rounded-circle position-absolute top-0 start-100 translate-middle"
+                                        style="font-size: 0.7rem;">2</span>
+                                </a>
+                            </span>
+                        </li>
+
+                        <li class="sidebar-item @(currentController == "Home" && currentAction == "Principal" ? "selected" : "")">
+                            <a class="sidebar-link" href="@Url.Action("Principal", "Home")">
                                 <i class="fas fa-home"></i>
                                 <span class="hide-menu">Inicio</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="#">
+
+                        <li class="sidebar-item @(currentController == "Catalogo" ? "selected" : "")">
+                            <a class="sidebar-link" href="@Url.Action("Index", "Catalogo")">
                                 <i class="fas fa-box"></i>
                                 <span class="hide-menu">Catálogo</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="#">
+
+                        <li class="sidebar-item @(currentController == "Maquillaje" ? "selected" : "")">
+                            <a class="sidebar-link" href="@Url.Action("Index", "Maquillaje")">
                                 <i class="fas fa-magic"></i>
                                 <span class="hide-menu">Maquillaje</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="#">
+
+                        <li class="sidebar-item @(currentController == "CuidadoPiel" ? "selected" : "")">
+                            <a class="sidebar-link" href="@Url.Action("Index", "CuidadoPiel")">
                                 <i class="fas fa-spa"></i>
                                 <span class="hide-menu">Cuidado de la piel</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="#">
+
+                        <li class="sidebar-item @(currentController == "Rutinas" ? "selected" : "")">
+                            <a class="sidebar-link" href="@Url.Action("Index", "Rutinas")">
                                 <i class="fas fa-seedling"></i>
                                 <span class="hide-menu">Rutinas</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="#">
+
+                        <li class="sidebar-item @(currentController == "Promociones" ? "selected" : "")">
+                            <a class="sidebar-link" href="@Url.Action("Index", "Promociones")">
                                 <i class="fas fa-tags"></i>
                                 <span class="hide-menu">Promociones</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="#">
+
+                        <li class="sidebar-item @(currentController == "Resenas" ? "selected" : "")">
+                            <a class="sidebar-link" href="@Url.Action("Index", "Resenas")">
                                 <i class="fas fa-star"></i>
                                 <span class="hide-menu">Reseñas</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/Usuario/Index">
+
+                        <li class="sidebar-item @(currentController == "Perfil" ? "selected" : "")">
+                            <a class="sidebar-link" href="@Url.Action("Index", "Usuario")">
                                 <i class="fas fa-user"></i>
                                 <span class="hide-menu">Perfil</span>
                             </a>
                         </li>
+
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="/Home/Historia">
                                 <i class="fas fa-heart"></i>
@@ -80,7 +211,7 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link text-danger" href="/Autenticacion/CerrarSesion">
+                            <a class="sidebar-link text-danger" href="@Url.Action("CerrarSesion", "Autenticacion")">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span class="hide-menu">Cerrar sesión</span>
                             </a>
@@ -118,5 +249,10 @@
     @RenderSection("Scripts", required: false)
     @RenderSection("Styles", required: false)
 
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 </body>
 </html>

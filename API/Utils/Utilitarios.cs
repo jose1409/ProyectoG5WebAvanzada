@@ -125,8 +125,8 @@ namespace API.Utils
 
         public void SMTPCorreo(Autenticacion autenticacion, string contrasenna)
         {
-            var ruta = Path.Combine(_environment.ContentRootPath, "Correos.html");
-            var html = System.IO.File.ReadAllText(ruta);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "Emails", "Correos.html");
+            var html = File.ReadAllText(path);
 
             html = html.Replace("@@NombreUsuario", autenticacion.Nombre);
             html = html.Replace("@@Contrasenna", contrasenna);

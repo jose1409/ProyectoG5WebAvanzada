@@ -25,12 +25,30 @@ namespace API.Controllers
         [AllowAnonymous]
         public IActionResult Registro(Autenticacion autenticacion)
         {
+            try
+            {
+                // Validar si ya existe un usuario con la misma cédula o correo
+                if (_autenticacionRepository.ExisteCedula(autenticacion.Cedula))
+                {
+                    return BadRequest(_utilitarios.RespuestaIncorrecta("La cédula ya está registrada."));
+                }
 
-            int resultado = _autenticacionRepository.Register(autenticacion);
-            if (resultado > 0)
-                return Ok(_utilitarios.RespuestaCorrecta(autenticacion));
-            else
-                return BadRequest(_utilitarios.RespuestaIncorrecta("Su información no fue registrada correctamente"));
+                if (_autenticacionRepository.ExisteCorreo(autenticacion.CorreoElectronico))
+                {
+                    return BadRequest(_utilitarios.RespuestaIncorrecta("El correo electrónico ya está registrado."));
+                }
+
+                int resultado = _autenticacionRepository.Register(autenticacion);
+
+                if (resultado > 0)
+                    return Ok(_utilitarios.RespuestaCorrecta(autenticacion));
+                else
+                    return BadRequest(_utilitarios.RespuestaIncorrecta("Su información no fue registrada correctamente"));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _utilitarios.RespuestaIncorrecta("Error interno del servidor: " + ex.Message));
+            }
         }
 
         //Login
@@ -70,6 +88,7 @@ namespace API.Controllers
             }
             return BadRequest(_utilitarios.RespuestaIncorrecta("Su información no fue validada correctamente"));
         }
+
     }
 
         //Cambio de contraseña en mi Perfil
