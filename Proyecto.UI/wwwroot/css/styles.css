@@ -1,0 +1,149 @@
+﻿.contenido-centrado {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+}
+
+
+/* FUENTE Y BASE */
+.homepage-botero {
+    background-color: #fdf9fc;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* HERO */
+.hero-botero {
+    height: 70vh;
+    background: url('../img/pexels-misolo-cosmetic-2588316-11179692.jpg') center/cover no-repeat;
+    position: relative;
+    padding: 60px 20px;
+    width: 100%;
+}
+
+.hero-content {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 700px;
+    margin: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.titulo {
+    font-size: 3rem;
+    color: #993bb9;
+    font-weight: 700;
+}
+
+.subtitulo {
+    font-size: 1.2rem;
+    color: #444;
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.btn-hero {
+    background-color: #993bb9;
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+    .btn-hero:hover {
+        background-color: #7a2f91;
+        transform: scale(1.05);
+    }
+
+/* TÍTULOS */
+.text-purple {
+    color: #993bb9;
+}
+
+/* SECCIONES CENTRADAS */
+.seccion-explora .container,
+.seccion-destacados .container,
+.seccion-cuidados .container {
+    max-width: 1100px;
+    width: 100%;
+    padding: 0 15px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+/* CARDS PRODUCTO */
+.card-producto {
+    background-color: white;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+    .card-producto:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-producto img {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+/* CARDS INFO GENERAL */
+.card-info {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    padding: 20px;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+    .card-info:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-info img {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 15px;
+    }
+
+    .card-info h4 {
+        font-size: 1.2rem;
+        color: #6b207d;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .card-info p {
+        font-size: 0.95rem;
+        color: #555;
+    }
+
+/* SECCIONES COLOR FONDO */
+.seccion-destacados,
+.seccion-cuidados {
+    background-color: #fff;
+}
