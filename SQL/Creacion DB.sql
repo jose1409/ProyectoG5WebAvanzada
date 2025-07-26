@@ -79,3 +79,34 @@ CREATE TABLE RutinaProducto (
     FOREIGN KEY (IdRutina) REFERENCES Rutina(IdRutina),
     FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
 );
+
+
+-- Crear tabla: CompanyInfo
+IF OBJECT_ID('dbo.CompanyInfo', 'U') IS NOT NULL
+    DROP TABLE dbo.CompanyInfo;
+GO
+
+CREATE TABLE dbo.CompanyInfo (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Titulo NVARCHAR(150) NOT NULL,
+    Descripcion NVARCHAR(MAX) NOT NULL,
+    BannerUrl NVARCHAR(255) NULL
+);
+GO
+
+
+-- Crear tabla: TeamMember
+IF OBJECT_ID('dbo.TeamMember', 'U') IS NOT NULL
+    DROP TABLE dbo.TeamMember;
+GO
+ 
+CREATE TABLE dbo.TeamMember (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(100) NOT NULL,
+    Puesto NVARCHAR(100) NOT NULL,
+    ImagenUrl NVARCHAR(255) NULL,
+    FacebookUrl NVARCHAR(255) NULL,
+    TwitterUrl NVARCHAR(255) NULL,
+    LinkedinUrl NVARCHAR(255) NULL
+);
+GO

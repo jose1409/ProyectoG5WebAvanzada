@@ -64,7 +64,7 @@ namespace Proyecto.UI.Controllers
                 if (resultado.IsSuccessStatusCode)
                 {
                     HttpContext.Session.SetString("Nombre", autenticacion?.Nombre!);
-                    return RedirectToAction("Principal", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {

@@ -48,3 +48,23 @@ INSERT INTO [dbo].[RutinaProducto] (IdRutina, id_producto) VALUES
 (1, 4),
 (1, 5);
 GO
+
+-- Team Members
+INSERT INTO TeamMember (Nombre, Puesto, ImagenUrl, FacebookUrl, TwitterUrl, LinkedinUrl)
+VALUES
+('IBG', 'Fundador', '/img/equipo/ibg.jpg', 'https://facebook.com/ibg', 'https://twitter.com/ibg', 'https://linkedin.com/in/ibg'),
+('Marcela Botero', 'Mercadeo y Ventas', '/img/equipo/marcela-botero.jpg', 'https://facebook.com/marcela', 'https://twitter.com/marcela', 'https://linkedin.com/in/marcela'),
+('Teresa Duque', 'Atención al cliente', '/img/equipo/teresa-duque.jpg', 'https://facebook.com/teresa', 'https://twitter.com/teresa', 'https://linkedin.com/in/teresa');
+GO
+
+UPDATE TeamMember
+SET PhotoPath = '/img/team/ibg.jpg'
+WHERE FullName = 'IBG';
+
+UPDATE TeamMember
+SET PhotoPath = '/img/team/marcela.jpg'
+WHERE FullName = 'MARCELA BOTERO';
+
+UPDATE TeamMember
+SET PhotoPath = '/img/team/teresa.jpg'
+WHERE FullName = 'TERESA DUQUE';

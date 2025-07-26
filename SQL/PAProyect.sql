@@ -258,3 +258,20 @@ BEGIN
     DELETE FROM Rutina WHERE IdRutina = @IdRutina;
 END;
 GO
+
+
+-- Obtener la información de la empresa
+CREATE OR ALTER PROCEDURE sp_GetCompanyInfo
+AS
+BEGIN
+    SELECT TOP 1 * FROM CompanyInfo WHERE IsActive = 1 ORDER BY Id DESC;
+END
+GO
+
+-- Obtener miembros activos del equipo
+CREATE OR ALTER PROCEDURE sp_GetTeamMembers
+AS
+BEGIN
+    SELECT * FROM TeamMember WHERE IsActive = 1 ORDER BY DisplayOrder;
+END
+GO
