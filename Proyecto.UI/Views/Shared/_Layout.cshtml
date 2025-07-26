@@ -9,7 +9,10 @@
     <title>Botero Beauty</title>
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link href="~/css/styles.css" rel="stylesheet" />
+    @RenderSection("Scripts", required: false)
+    @RenderSection("Styles", required: false)
     <style>
         body {
             margin: 0;
@@ -192,12 +195,6 @@
                             </a>
                         </li>
 
-                        <li class="sidebar-item @(currentController == "Resenas" ? "selected" : "")">
-                            <a class="sidebar-link" href="@Url.Action("Index", "Resenas")">
-                                <i class="fas fa-star"></i>
-                                <span class="hide-menu">Reseñas</span>
-                            </a>
-                        </li>
 
                         <li class="sidebar-item @(currentController == "Perfil" ? "selected" : "")">
                             <a class="sidebar-link" href="@Url.Action("Index", "Usuario")">
