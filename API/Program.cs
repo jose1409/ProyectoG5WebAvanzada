@@ -2,11 +2,14 @@ using System.Text;
 using System.Text.Json;
 using API.Repository;
 using API.Repository.AutenticacionRepository;
+using API.Repository.CategoriaRepository;
+using API.Repository.ProductoRepository;
 using API.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using API.Repository.RutinaRepository;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,13 +20,21 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IRutinaRepository, RutinaRepository>();
 
 // Inyeccion de Utils
 builder.Services.AddScoped<IUtilitarios, Utilitarios>();
 
 // Inyeccion de Repositories
 builder.Services.AddScoped<IAutenticacionRepository, AutenticacionRepository>();
+
 builder.Services.AddScoped<IAboutRepository, AboutRepository>();
+
+builder.Services.AddScoped<IDbConnection>(sp =>
+    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+
 
 // **Inyeccion de IDbConnection para Dapper**
 builder.Services.AddScoped<IDbConnection>(sp =>
@@ -66,7 +77,7 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 
-// Configuración CORS
+// Configuraciï¿½n CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirTodo", policy =>
@@ -90,7 +101,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("PermitirTodo");
 
-app.UseAuthentication(); // Aseguramos que la autenticación JWT esté activa
+app.UseAuthentication(); // Aseguramos que la autenticaciï¿½n JWT estï¿½ activa
 app.UseAuthorization();
 
 app.MapControllers();

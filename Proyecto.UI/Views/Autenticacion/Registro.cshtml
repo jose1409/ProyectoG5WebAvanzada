@@ -1,10 +1,99 @@
 ﻿@model Proyecto.UI.Models.Autenticacion
 
 @{
+    Layout = "_LayoutExterno";
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
 
     Layout = "_LayoutExterno";
 
+
 }
+
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(/img/login-register.jpg) no-repeat center center;">
+    <div class="auth-box on-sidebar">
+        <div>
+            <div class="logo">
+                @if (!string.IsNullOrEmpty(ViewBag.Mensaje))
+                    {
+                        <div class="alert alert-danger text-center" role="alert">
+                            @ViewBag.Mensaje
+                        </div>
+                    }
+                <span class="db"><img src="https://www.boterobeauty.com/cdn/shop/files/logo2.png?v=1718741803&width=150" alt="logo" /></span>
+                <h5 class="font-medium m-b-20">Sign Up to Admin</h5>
+            </div>
+            <!-- ASP.NET Core Form -->
+            <div class="row">
+                <div class="col-12">
+                    <form asp-action="Registro" class="form-horizontal m-t-20">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <input asp-for="Cedula" class="form-control form-control-lg" placeholder="Cédula" onkeyup="ConsultarPersonaApi();">
+                                <span asp-validation-for="Cedula" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <input asp-for="Nombre" class="form-control form-control-lg" placeholder="Nombre" />
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <input asp-for="Apellidos" class="form-control form-control-lg" placeholder="Apellidos" />
+                                <span asp-validation-for="Apellidos" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <input asp-for="CorreoElectronico" class="form-control form-control-lg" placeholder="Correo Electrónico" />
+                                <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <input asp-for="Contrasenna" type="password" class="form-control form-control-lg" placeholder="Contraseña" />
+                                <span asp-validation-for="Contrasenna" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input asp-for="AceptaTerminos" class="custom-control-input" id="customCheck1" />
+                                    <label class="custom-control-label" for="customCheck1">
+                                        Acepto los <a href="#" class="text-info">términos</a>
+                                    </label>
+                                </div>
+                                <span asp-validation-for="AceptaTerminos" class="text-danger d-block mt-1"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <div class="col-xs-12 p-b-20">
+                                <button type="submit" class="btn btn-block btn-lg btn-info">Registrarse</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-b-0 m-t-10">
+                            <div class="col-sm-12 text-center">
+                                ¿Ya tienes una cuenta? <a href="@Url.Action("Index","Autenticacion")" class="text-info m-l-5"><b>Iniciar sesión</b></a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
 
 <div class="auth-wrapper">
     <div class="auth-box">

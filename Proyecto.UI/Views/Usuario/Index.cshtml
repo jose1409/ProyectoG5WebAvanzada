@@ -1,47 +1,51 @@
-﻿@{
-    ViewBag.Title = "Mi Perfil";
+﻿@model Autenticacion
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string fotoBase64 = Model.Fotografia != null && Model.Fotografia.Length > 0
+        ? "data:image/png;base64," + Convert.ToBase64String(Model.Fotografia)
+        : "#";
+    string estilo = Model.Fotografia != null && Model.Fotografia.Length > 0
+        ? ""
+        : "display: none;";
 }
 
-<div class="container mt-5">
-    <h2 class="mb-4 text-primary">Mi Perfil</h2>
+@section Styles {
+    <link href="~/css/perfil.css" rel="stylesheet" />
+}
 
-    <input type="hidden" id="IdUsuario" value="@ViewBag.IdUsuario" />
+<div class="perfil-container">
+    <h2 class="perfil-titulo">Mi Perfil</h2>
 
-    <div class="card shadow p-4">
-        <form id="formPerfil">
-            <div class="form-group mb-3">
-                <label for="Cedula">Cédula</label>
-                <input type="text" id="Cedula" name="Cedula" class="form-control" readonly />
-            </div>
+    <form class="perfil-form" asp-controller="Usuario" asp-action="Index" enctype="multipart/form-data">
 
-            <div class="form-group mb-3">
-                <label for="CorreoElectronico">Correo electrónico</label>
-                <input type="email" id="CorreoElectronico" name="CorreoElectronico" class="form-control" />
-            </div>
+        <input type="hidden" asp-for="Fotografia" />
 
-            <div class="form-group mb-3">
-                <label for="Nombre">Nombre</label>
-                <input type="text" id="Nombre" name="Nombre" class="form-control" />
-            </div>
+        <!-- Foto de perfil centrada -->
+        <div class="preview-container">
+            <img id="previewFoto" src="@fotoBase64" alt="Previsualización" style="@estilo" />
+        </div>
 
-            <div class="form-group mb-3">
-                <label for="Apellidos">Apellidos</label>
-                <input type="text" id="Apellidos" name="Apellidos" class="form-control" />
-            </div>
+        <label asp-for="FotografiaFile">Fotografía</label>
+        <input asp-for="FotografiaFile" type="file" accept="image/*" onchange="previewImage(this)" />
 
-            <div class="form-group mb-4">
-                <label for="Telefono">Teléfono</label>
-                <input type="text" id="Telefono" name="Telefono" class="form-control" />
-            </div>
+        <label for="Cedula">Cédula</label>
+        <input asp-for="Cedula" type="text" readonly />
 
-            <div class="text-end">
-                <button type="submit" class="btn btn-success">Guardar Cambios</button>
-            </div>
-        </form>
-    </div>
+        <label for="CorreoElectronico">Correo electrónico</label>
+        <input asp-for="CorreoElectronico" type="email" />
+
+        <label for="Nombre">Nombre</label>
+        <input asp-for="Nombre" type="text" />
+
+        <label for="Apellidos">Apellidos</label>
+        <input asp-for="Apellidos" type="text" />
+
+        <label for="Telefono">Teléfono</label>
+        <input asp-for="Telefono" type="text" />
+
+        <button type="submit" class="boton-guardar">Guardar Cambios</button>
+    </form>
 </div>
 
-@section Scripts {
-    <script src="~/js/perfil.js"></script>
-}
+<script src="~/js/Usuario/PreviewPhoto.js"></script>

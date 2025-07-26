@@ -1,0 +1,62 @@
+@model Proyecto.UI.Models.RutinaConProductos
+@{
+    Layout = "_Layout";
+}
+
+<div class="container py-5">
+    <div class="mb-4">
+        <a href="@Url.Action("Index", "Rutinas")" class="btn text-secondary fw-semibold" 
+           style="font-size: 1rem; padding: 0.5rem 1rem; transition: all 0.3s; border: none;"
+           onmouseover="this.style.backgroundColor='#e4d3f5';" 
+           onmouseout="this.style.backgroundColor='transparent';">
+            <i class="fas fa-arrow-left me-2"></i>Volver
+        </a>
+    </div>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6 text-center">
+            <img src="@Model.Imagen" alt="@Model.Nombre" class="img-fluid rounded shadow-sm" style="max-height: 400px; object-fit: cover;">
+        </div>
+        <div class="col-md-6">
+            <h2 class="mb-3 fw-bold" style="font-size: 2.2rem; color: #4a4a4a;">@Model.Nombre</h2>
+            <p class="text-muted" style="font-size: 1.1rem;">@Model.Descripcion</p>
+        </div>
+    </div>
+
+    <h4 class="mb-4" style="font-weight: 600; font-size: 1.5rem; color: #5a5a5a;">
+        🛍️ Productos en esta rutina
+    </h4>
+
+    <div class="row">
+        @if (Model.Productos != null && Model.Productos.Any())
+        {
+            foreach (var producto in Model.Productos)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow-sm border-0 h-100">
+                        <img src="@producto.RutaImagen" class="card-img-top" alt="@producto.Descripcion" style="object-fit: cover; height: 200px;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@producto.Descripcion</h5>
+                            <p class="card-text text-muted">@producto.Detalle</p>
+                            <p class="card-text fw-bold mt-auto">₡@producto.Precio.ToString("N0")</p>
+                            <a href="@Url.Action("Details", "Catalogo", new { id = producto.IdProducto })" class="btn btn-sm" 
+                                style="color: #993bb9; border: 1px solid #993bb9;"
+                                onmouseover="this.style.backgroundColor='#993bb9'; this.style.color='#ffffff';" 
+                                onmouseout="this.style.backgroundColor='transparent'; this.style.color='#993bb9';">
+                                Ver producto
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="text-center p-4 rounded" style="background-color: #e4d3f5; color: #6b5b75;">
+                    No hay productos asociados a esta rutina.
+                </div>
+            </div>
+        }
+    </div>
+</div>
