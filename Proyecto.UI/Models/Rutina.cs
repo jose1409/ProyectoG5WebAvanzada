@@ -7,6 +7,6 @@ namespace Proyecto.UI.Models
         public string? Descripcion { get; set; }
         public string? Imagen { get; set; }
 
-        public List<ViewModels.ProductoRutinaViewModel> Productos { get; set; } = new();
+        public List<RutinaConProductos> Productos { get; set; } = new();
     }
 }

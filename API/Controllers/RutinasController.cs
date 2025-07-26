@@ -23,9 +23,10 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var rutina = _repo.ObtenerRutinaPorId(id);
+            var rutina = await _repo.ObtenerRutinaPorId(id);
+
             if (rutina == null)
                 return NotFound();
 

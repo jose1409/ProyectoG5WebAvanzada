@@ -21,11 +21,36 @@ namespace API.Repository.RutinaRepository
             return rutinas;
         }
 
-        public Rutina ObtenerRutinaPorId(int id)
+        public async Task<RutinaConProductos?> ObtenerRutinaPorId(int id)
         {
             using var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-            var rutina = connection.QueryFirstOrDefault<Rutina>("ObtenerRutinaPorId", new { IdRutina = id }, commandType: CommandType.StoredProcedure);
-            return rutina;
+            
+            var diccionario = new Dictionary<int, RutinaConProductos>();
+
+            var resultado = await connection.QueryAsync<RutinaConProductos, ProductoRutina, RutinaConProductos>(
+                "ObtenerRutinaPorId",
+                (rutina, producto) =>
+                {
+                    if (!diccionario.TryGetValue(rutina.IdRutina, out var rutinaExistente))
+                    {
+                        rutinaExistente = rutina;
+                        rutinaExistente.Productos = new List<ProductoRutina>();
+                        diccionario.Add(rutina.IdRutina, rutinaExistente);
+                    }
+
+                    if (producto != null && producto.IdProducto != 0)
+                    {
+                        rutinaExistente.Productos.Add(producto);
+                    }
+
+                    return rutinaExistente;
+                },
+                new { IdRutina = id },
+                splitOn: "IdProducto",
+                commandType: CommandType.StoredProcedure
+            );
+
+            return resultado.FirstOrDefault();
         }
 
         public int InsertarRutina(Rutina rutina)
@@ -93,5 +118,6 @@ namespace API.Repository.RutinaRepository
             using var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             return connection.Execute("EliminarRutina", new { IdRutina = id }, commandType: CommandType.StoredProcedure);
         }
+
     }
 }

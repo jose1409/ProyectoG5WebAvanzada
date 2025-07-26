@@ -42,7 +42,7 @@ namespace Proyecto.UI.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                var rutina = await response.Content.ReadFromJsonAsync<Rutina>();
+                var rutina = await response.Content.ReadFromJsonAsync<RutinaConProductos>();
                 return View(rutina);
             }
 
