@@ -56,7 +56,7 @@ CREATE PROCEDURE [dbo].[GetUserProfileData]
     @IdUsuario BIGINT
 AS
 BEGIN
-    SELECT IdUsuario, cedula, Nombre, CorreoElectronico, telefono, fotografia, activo
+    SELECT IdUsuario, cedula, Nombre, apellidos, CorreoElectronico, telefono, fotografia, activo
     FROM dbo.Usuario
     WHERE IdUsuario = @IdUsuario
 END
