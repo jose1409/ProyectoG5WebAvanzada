@@ -197,9 +197,16 @@
                         </li>
 
                         <li class="sidebar-item @(currentController == "Perfil" ? "selected" : "")">
-                            <a class="sidebar-link" href="@Url.Action("Index", "Perfil")">
+                            <a class="sidebar-link" href="@Url.Action("Index", "Usuario")">
                                 <i class="fas fa-user"></i>
                                 <span class="hide-menu">Perfil</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/Home/Historia">
+                                <i class="fas fa-heart"></i>
+                                <span class="hide-menu">Nuestra Historia</span>
                             </a>
                         </li>
 
@@ -208,6 +215,7 @@
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span class="hide-menu">Cerrar sesión</span>
                             </a>
+
                         </li>
                     </ul>
                 </nav>
@@ -238,6 +246,9 @@
     <script src="~/lib/waves.js"></script>
     <script src="~/lib/sidebarmenu.js"></script>
     <script src="~/lib/custom.min.js"></script>
+    @RenderSection("Scripts", required: false)
+    @RenderSection("Styles", required: false)
+
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();

@@ -5,6 +5,7 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 
+
 <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(/img/login-register.jpg) no-repeat center center;">
     <div class="auth-box on-sidebar">
         <div>
@@ -85,13 +86,64 @@
                     </form>
                 </div>
             </div>
+
+<div class="auth-wrapper">
+    <div class="auth-box">
+        <div class="logo">
+            <span class="db">
+                <img src="https://www.boterobeauty.com/cdn/shop/files/logo2.png?v=1718741803&width=160" alt="logo" />
+            </span>
+            <h5 class="font-medium m-b-20">Crea tu cuenta</h5>
+
         </div>
+
+        <form asp-action="Registro" class="form-horizontal mt-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="form-group">
+                <input asp-for="Cedula" class="form-control form-control-lg" placeholder="Cédula" onkeyup="ConsultarPersonaApi();">
+                <span asp-validation-for="Cedula" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Nombre" class="form-control form-control-lg" placeholder="Nombre" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Apellidos" class="form-control form-control-lg" placeholder="Apellidos" />
+                <span asp-validation-for="Apellidos" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="CorreoElectronico" class="form-control form-control-lg" placeholder="Correo Electrónico" />
+                <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Contrasenna" type="password" class="form-control form-control-lg" placeholder="Contraseña" />
+                <span asp-validation-for="Contrasenna" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-check text-left">
+                <input type="checkbox" class="form-check-input" id="customCheck1">
+                <label class="form-check-label" for="customCheck1">Acepto todos los <a href="#">términos</a></label>
+            </div>
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-login btn-block">Registrarse</button>
+            </div>
+
+            <div class="form-group text-center mt-3">
+                <p>¿Ya tienes una cuenta? <a href="@Url.Action("Index", "Autenticacion")"><b>Iniciar sesión</b></a></p>
+            </div>
+        </form>
     </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery.min.js"></script>
+    <script src="~/js/index.js"></script>
+    <script src="~/js/comunes.js"></script>
 }
-<script src="~/lib/jquery.min.js"></script>
-<script src="~/js/index.js"></script>
-<script src="~/js/comunes.js"></script>

@@ -30,5 +30,8 @@ namespace Proyecto.UI.Models
         [Range(typeof(bool), "true", "true", ErrorMessage = "Debe aceptar los términos y condiciones")]
         [Display(Name = "Aceptar Términos")]
         public bool AceptaTerminos { get; set; }
+
+        //Dato Para visualizar y antes de convertir
+        public IFormFile FotografiaFile { get; set; }
     }
 }

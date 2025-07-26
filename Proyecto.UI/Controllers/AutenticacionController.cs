@@ -95,6 +95,12 @@ namespace Proyecto.UI.Controllers
                 }
             }
         }
+        public IActionResult CerrarSesion()
+        {
+            HttpContext.Session.Clear(); // Elimina la sesión
+            return RedirectToAction("Index", "Autenticacion"); // Redirige al login
+        }
+
 
         [HttpGet]
         public IActionResult RecoverAccess()

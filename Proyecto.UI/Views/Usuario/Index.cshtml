@@ -1,0 +1,51 @@
+﻿@model Autenticacion
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string fotoBase64 = Model.Fotografia != null && Model.Fotografia.Length > 0
+        ? "data:image/png;base64," + Convert.ToBase64String(Model.Fotografia)
+        : "#";
+    string estilo = Model.Fotografia != null && Model.Fotografia.Length > 0
+        ? ""
+        : "display: none;";
+}
+
+@section Styles {
+    <link href="~/css/perfil.css" rel="stylesheet" />
+}
+
+<div class="perfil-container">
+    <h2 class="perfil-titulo">Mi Perfil</h2>
+
+    <form class="perfil-form" asp-controller="Usuario" asp-action="Index" enctype="multipart/form-data">
+
+        <input type="hidden" asp-for="Fotografia" />
+
+        <!-- Foto de perfil centrada -->
+        <div class="preview-container">
+            <img id="previewFoto" src="@fotoBase64" alt="Previsualización" style="@estilo" />
+        </div>
+
+        <label asp-for="FotografiaFile">Fotografía</label>
+        <input asp-for="FotografiaFile" type="file" accept="image/*" onchange="previewImage(this)" />
+
+        <label for="Cedula">Cédula</label>
+        <input asp-for="Cedula" type="text" readonly />
+
+        <label for="CorreoElectronico">Correo electrónico</label>
+        <input asp-for="CorreoElectronico" type="email" />
+
+        <label for="Nombre">Nombre</label>
+        <input asp-for="Nombre" type="text" />
+
+        <label for="Apellidos">Apellidos</label>
+        <input asp-for="Apellidos" type="text" />
+
+        <label for="Telefono">Teléfono</label>
+        <input asp-for="Telefono" type="text" />
+
+        <button type="submit" class="boton-guardar">Guardar Cambios</button>
+    </form>
+</div>
+
+<script src="~/js/Usuario/PreviewPhoto.js"></script>

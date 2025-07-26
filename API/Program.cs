@@ -1,6 +1,8 @@
 using System.Text;
 using System.Text.Json;
 using API.Repository.AutenticacionRepository;
+using API.Repository.CategoriaRepository;
+using API.Repository.ProductoRepository;
 using API.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -25,6 +27,8 @@ builder.Services.AddScoped<IUtilitarios, Utilitarios>();
 builder.Services.AddScoped<IAutenticacionRepository, AutenticacionRepository>();
 builder.Services.AddScoped<IDbConnection>(sp =>
     new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 
 //Configuracion JWT
 var llaveSegura = builder.Configuration["Start:LlaveSegura"]!.ToString();
@@ -63,6 +67,17 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirTodo", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -73,6 +88,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("PermitirTodo");
 
 app.UseAuthorization();
 
