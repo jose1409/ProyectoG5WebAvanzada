@@ -4,12 +4,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient();
+
+// Configuración de HttpClient para la API (puerto 7093 HTTPS)
+builder.Services.AddHttpClient("API", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7093/");
+});
+
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
-//Services
-builder.Services.AddScoped<IUtilitarios, Utilitarios>();
 
+// Services
+builder.Services.AddScoped<IUtilitarios, Utilitarios>();
 
 var app = builder.Build();
 
@@ -17,7 +23,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

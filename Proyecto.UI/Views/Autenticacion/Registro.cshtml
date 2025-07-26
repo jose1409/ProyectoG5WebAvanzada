@@ -1,14 +1,28 @@
 ﻿@model Proyecto.UI.Models.Autenticacion
+
 @{
     Layout = "_LayoutExterno";
 }
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 
+@{
+
+    Layout = "_LayoutExterno";
+
+
+}
 
 <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(/img/login-register.jpg) no-repeat center center;">
     <div class="auth-box on-sidebar">
         <div>
             <div class="logo">
+                @if (!string.IsNullOrEmpty(ViewBag.Mensaje))
+                    {
+                        <div class="alert alert-danger text-center" role="alert">
+                            @ViewBag.Mensaje
+                        </div>
+                    }
                 <span class="db"><img src="https://www.boterobeauty.com/cdn/shop/files/logo2.png?v=1718741803&width=150" alt="logo" /></span>
                 <h5 class="font-medium m-b-20">Sign Up to Admin</h5>
             </div>
@@ -56,15 +70,18 @@
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                    <label class="custom-control-label" for="customCheck1">Acepto todos los <a href="javascript:void(0)">términos</a></label>
+                                    <input asp-for="AceptaTerminos" class="custom-control-input" id="customCheck1" />
+                                    <label class="custom-control-label" for="customCheck1">
+                                        Acepto los <a href="#" class="text-info">términos</a>
+                                    </label>
                                 </div>
+                                <span asp-validation-for="AceptaTerminos" class="text-danger d-block mt-1"></span>
                             </div>
                         </div>
 
                         <div class="form-group text-center">
                             <div class="col-xs-12 p-b-20">
-                                <button type="submit" class="btn btn-block btn-lg btn-info">REGISTRARSE</button>
+                                <button type="submit" class="btn btn-block btn-lg btn-info">Registrarse</button>
                             </div>
                         </div>
 
@@ -77,6 +94,7 @@
                 </div>
             </div>
 
+
 <div class="auth-wrapper">
     <div class="auth-box">
         <div class="logo">
@@ -84,7 +102,6 @@
                 <img src="https://www.boterobeauty.com/cdn/shop/files/logo2.png?v=1718741803&width=160" alt="logo" />
             </span>
             <h5 class="font-medium m-b-20">Crea tu cuenta</h5>
-
         </div>
 
         <form asp-action="Registro" class="form-horizontal mt-4">
@@ -136,4 +153,7 @@
     <script src="~/lib/jquery.min.js"></script>
     <script src="~/js/index.js"></script>
     <script src="~/js/comunes.js"></script>
+
 }
+
+

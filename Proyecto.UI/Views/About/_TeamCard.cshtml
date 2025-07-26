@@ -1,0 +1,25 @@
+﻿@model Proyecto.UI.Models.TeamMember
+
+<div class="card team-card text-center shadow-sm border-0" style="width: 16rem; border-radius: 12px;">
+    <div class="card-body">
+        <img class="rounded-circle mb-3" src="@Model.PhotoPath" alt="@Model.FullName"
+             style="width:120px; height:120px; object-fit:cover; border:3px solid #ddd;" />
+        <h5 class="fw-bold mb-1 text-uppercase">@Model.FullName</h5>
+        <small class="text-muted d-block mb-3">@Model.Role</small>
+        <div class="d-flex justify-content-center gap-3">
+            @if (!string.IsNullOrEmpty(Model.FacebookUrl))
+            {
+                <a href="@Model.FacebookUrl" target="_blank"><i class="fab fa-facebook"></i></a>
+            }
+            @if (!string.IsNullOrEmpty(Model.LinkedInUrl))
+            {
+                <a href="@Model.LinkedInUrl" target="_blank"><i class="fab fa-linkedin"></i></a>
+            }
+            @if (!string.IsNullOrEmpty(Model.InstagramUrl))
+            {
+                <a href="@Model.InstagramUrl" target="_blank"><i class="fab fa-instagram"></i></a>
+            }
+        </div>
+    </div>
+</div>
+
