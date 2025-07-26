@@ -32,6 +32,6 @@ namespace Proyecto.UI.Models
         public bool AceptaTerminos { get; set; }
 
         //Dato Para visualizar y antes de convertir
-        public IFormFile FotografiaFile { get; set; }
+        public IFormFile? FotografiaFile { get; set; }
     }
 }

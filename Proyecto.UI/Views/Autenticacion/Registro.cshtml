@@ -41,8 +41,11 @@
             </div>
 
             <div class="form-group form-check text-left">
-                <input type="checkbox" class="form-check-input" id="customCheck1">
-                <label class="form-check-label" for="customCheck1">Acepto todos los <a href="#">términos</a></label>
+                <input asp-for="AceptaTerminos" class="form-check-input" id="AceptaTerminos" />
+                <label class="form-check-label" for="AceptaTerminos">
+                    Acepto todos los <a href="#">términos</a>
+                </label>
+                <span asp-validation-for="AceptaTerminos" class="text-danger"></span>
             </div>
 
             <div class="form-group text-center">
