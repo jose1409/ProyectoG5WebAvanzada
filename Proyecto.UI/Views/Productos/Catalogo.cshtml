@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Producto>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Catálogo de Productos";
+}
+
+<style>
+    
+    .banner {
+        background: linear-gradient(135deg, #AF5CD9, #8a2be2);
+        color: white;
+        padding: 50px 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+        .banner h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .banner p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+    
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-radius: 15px;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+    
+    .btn-fucsia {
+        background-color: #D94FD6;
+        color: white;
+        border: none;
+        transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .btn-fucsia:hover {
+            background-color: #b43cae;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(212, 79, 214, 0.6);
+        }
+
+    
+    .btn-verde {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .btn-verde:hover {
+            background-color: #218838;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(33, 136, 56, 0.6);
+        }
+
+    
+    .precio {
+        font-size: 1.2rem;
+        color: #444;
+        font-weight: bold;
+    }
+</style>
+
+<div class="col-12 mt-4">
+   
+    <div class="banner">
+        <h2>Catálogo de Productos</h2>
+        <p>Descubre nuestros artículos destacados y encuentra el producto ideal para ti.</p>
+    </div>
+
+    <div class="row">
+        @foreach (var producto in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <img src="@producto.ImagenUrl" class="card-img-top" alt="@producto.Nombre" style="height:200px; object-fit:cover; border-top-left-radius:15px; border-top-right-radius:15px;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-center">@producto.Nombre</h5>
+                        <p class="card-text text-muted text-center">@producto.Descripcion</p>
+                        <p class="precio text-center">₡@producto.Precio.ToString("N0")</p>
+
+                        <div class="mt-auto">
+                           
+                            <a asp-controller="Productos" asp-action="Detalles" asp-route-id="@producto.Id"
+                               class="btn btn-sm btn-fucsia w-100 mb-2">
+                                Ver Detalles
+                            </a>
+
+                           
+                            <form asp-controller="Carrito" asp-action="Agregar" method="post">
+                                <input type="hidden" name="idProducto" value="@producto.Id" />
+                                <button type="submit" class="btn btn-sm btn-verde w-100">Agregar al Carrito</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
