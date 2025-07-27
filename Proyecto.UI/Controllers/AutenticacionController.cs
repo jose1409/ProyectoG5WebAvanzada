@@ -45,8 +45,17 @@ namespace Proyecto.UI.Controllers
                     HttpContext.Session.SetString("IdUsuario", datos?.Contenido?.IdUsuario.ToString()!);
                     HttpContext.Session.SetString("Nombre", datos?.Contenido?.Nombre!);
                     HttpContext.Session.SetString("JWT", datos?.Contenido?.Token!);
-
-                    return RedirectToAction("Index", "Home");  //Configurar Ventana principal
+                    //Definimos en la sesion el Rol y lugar de inicio
+                    if (datos?.Contenido?.Rol == "Administrador")
+                    {
+                        HttpContext.Session.SetString("Rol", "Administrador");
+                        return RedirectToAction("IndexAdmin", "Home");
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetString("Rol", "Usuario");
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {

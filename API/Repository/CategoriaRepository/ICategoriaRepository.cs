@@ -10,9 +10,10 @@ namespace API.Repository.CategoriaRepository
 
         Categoria Crear(Categoria categoria);
 
-        Categoria Actualizar(Categoria categoria);
+        int Actualizar(Categoria categoria);
 
         bool Eliminar(int idCategoria);
 
+        List<Categoria> ObtenerPorNombre(string nombreCategoria);
     }
 }

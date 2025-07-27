@@ -80,13 +80,14 @@ namespace API.Utils
             return resultado.ToString();
         }
 
-        public string GenerarToken(long IdUsuario)
+        public string GenerarToken(long IdUsuario, string Rol)
         {
             var key = Encoding.UTF8.GetBytes(_configuration.GetSection("Start:LlaveSegura").Value!);
 
             var claims = new[]
             {
                 new Claim("IdUsuario", IdUsuario.ToString()),
+                new Claim(ClaimTypes.Role, Rol)
             };
 
             var signingCredentials = new SigningCredentials(

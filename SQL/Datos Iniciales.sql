@@ -1,3 +1,14 @@
+--Roles
+--Crear primero el Rol Usuario y despues el administrador
+---------------*Que sean Ids 1 y 2 siempre*
+INSERT INTO Rol (nombre)
+VALUES ('Usuario');
+GO
+INSERT INTO Rol (nombre)
+VALUES ('Administrador');
+GO
+
+
 -- CATEGORÍAS
 INSERT INTO [dbo].[Categoria] (descripcion, ruta_imagen, activo) VALUES
 ('Maquillaje Facial', NULL, 1),

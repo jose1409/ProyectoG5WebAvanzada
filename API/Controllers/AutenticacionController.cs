@@ -60,7 +60,7 @@ namespace API.Controllers
             var resultado = _autenticacionRepository.Login(autenticacion);
             if (resultado != null)
             {
-                resultado.Token = _utilitarios.GenerarToken(resultado.IdUsuario);
+                resultado.Token = _utilitarios.GenerarToken(resultado.IdUsuario, resultado.Rol!);
                 return Ok(_utilitarios.RespuestaCorrecta(resultado));
             }
             return BadRequest(_utilitarios.RespuestaIncorrecta("Su información no fue validada correctamente"));

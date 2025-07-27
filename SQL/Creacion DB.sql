@@ -50,7 +50,7 @@ CREATE TABLE Usuario (
     telefono VARCHAR(20),
     fotografia VARBINARY(MAX),
     activo BIT NOT NULL DEFAULT 1,
-	id_rol INT,
+	id_rol INT NOT NULL DEFAULT 1,
     FOREIGN KEY (id_rol) REFERENCES Rol(id_rol)
 );
 GO

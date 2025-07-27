@@ -9,6 +9,7 @@ namespace API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    //[Authorize]
     public class CategoriaController : ControllerBase
     {
         private readonly ICategoriaRepository _categoriaRepository;
@@ -22,11 +23,33 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("ObtenerTodos")]
-        //[Authorize]
         public IActionResult ObtenerTodos()
         {
             List<Categoria> categorias = _categoriaRepository.ObtenerTodos();
             return Ok(_utilitarios.RespuestaCorrecta(categorias));
+        }
+
+        [HttpPut]
+        [Route("EditarCategoria")]
+        public IActionResult EditarCategoria(Categoria categoria)
+        {
+            int resultado = _categoriaRepository.Actualizar(categoria);
+            return Ok(_utilitarios.RespuestaCorrecta(resultado));
+        }
+
+        [HttpPost]
+        [Route("CrearCategoria")]
+        public IActionResult CrearCategoria(Categoria categoria)
+        {
+            Categoria resultado = _categoriaRepository.Crear(categoria);
+            return Ok(_utilitarios.RespuestaCorrecta(resultado));
+        }
+
+        [HttpDelete("EliminarCategoria/{id}")]
+        public IActionResult EliminarCategoria(int id)
+        {
+            bool resultado = _categoriaRepository.Eliminar(id);
+            return Ok(_utilitarios.RespuestaCorrecta("Categoría eliminada correctamente."));
         }
     }
 }

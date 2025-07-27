@@ -8,7 +8,7 @@ namespace API.Utils
 
         ApiResponse RespuestaIncorrecta(string mensaje);
 
-        string GenerarToken(long IdUsuario);
+        string GenerarToken(long IdUsuario, string Rol);
 
         string Encrypt(string texto);
 

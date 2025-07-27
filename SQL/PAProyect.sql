@@ -33,17 +33,19 @@ CREATE PROCEDURE [dbo].[Login]
 AS
 BEGIN
     SELECT 
-        idUsuario,
-        cedula,
-        nombre,
-        apellidos,
-        CorreoElectronico,
-        telefono,
-        fotografia,
-        activo
-    FROM dbo.Usuario
-    WHERE CorreoElectronico = @CorreoElectronico
-      AND Contrasenna = @Contrasenna;
+        u.idUsuario,
+        u.cedula,
+        u.nombre,
+        u.apellidos,
+        u.CorreoElectronico,
+        u.telefono,
+        u.fotografia,
+        u.activo,
+        r.nombre AS Rol
+    FROM dbo.Usuario u
+    INNER JOIN dbo.Rol r ON u.id_rol = r.id_rol
+    WHERE u.CorreoElectronico = @CorreoElectronico
+      AND u.Contrasenna = @Contrasenna;
 END
 GO
 
@@ -273,5 +275,97 @@ CREATE OR ALTER PROCEDURE sp_GetTeamMembers
 AS
 BEGIN
     SELECT * FROM TeamMember WHERE IsActive = 1 ORDER BY DisplayOrder;
+END
+GO
+
+
+
+-- =============================================
+-- Edita la categoria x Id
+-- =============================================
+IF OBJECT_ID('EditarCategoria', 'P') IS NOT NULL DROP PROCEDURE EditarCategoria;
+GO
+
+CREATE PROCEDURE EditarCategoria
+	@IdCategoria int,
+	@Descripcion varchar(1000),
+	@Imagen varbinary(MAX),
+	@Activo bit
+AS
+BEGIN
+    Update Categoria SET
+	descripcion = @Descripcion,
+	ruta_imagen = @Imagen,
+	activo = @Activo
+	Where id_categoria = @IdCategoria
+END 
+
+-- =============================================
+-- Elimina la categoria x Id (verificar primero la vinculacion de productos) si existen, no se puede eliminar
+-- =============================================
+IF OBJECT_ID('EliminarCategoria', 'P') IS NOT NULL DROP PROCEDURE EliminarCategoria;
+GO
+CREATE PROCEDURE EliminarCategoria
+	@id_categoria int
+AS
+BEGIN
+    Delete Categoria
+	Where id_categoria = @id_categoria
+END 
+
+
+-- =============================================
+-- Obtener categoria x nombre
+-- =============================================
+IF OBJECT_ID('ObtenerPorNombreCategoria', 'P') IS NOT NULL DROP PROCEDURE ObtenerPorNombreCategoria;
+GO
+CREATE PROCEDURE ObtenerPorNombreCategoria
+    @descripcion VARCHAR(1000)
+AS
+BEGIN
+    SELECT * 
+    FROM Categoria
+    WHERE LOWER(descripcion) LIKE '%' + LOWER(@descripcion) + '%'
+END
+
+
+-- =============================================
+-- Crear Categoria y devolver objeto con id
+-- =============================================
+IF OBJECT_ID('CrearCategoria', 'P') IS NOT NULL DROP PROCEDURE CrearCategoria;
+GO
+CREATE PROCEDURE CrearCategoria
+    @descripcion VARCHAR(1000),
+    @ruta_imagen VARBINARY(MAX),
+    @activo BIT
+AS
+BEGIN
+    INSERT INTO Categoria (descripcion, ruta_imagen, activo)
+    VALUES (@descripcion, @ruta_imagen, @activo)
+
+    -- Retornar la nueva categoría insertada (con su ID)
+    SELECT 
+	descripcion AS Descripcion,
+	ruta_imagen AS Imagen,
+	activo AS Activo
+
+	FROM Categoria
+    WHERE id_categoria = SCOPE_IDENTITY()
+END
+
+-- =============================================
+-- Listar todas las Categorias
+-- =============================================
+IF OBJECT_ID('ObtenerCategorias', 'P') IS NOT NULL DROP PROCEDURE ObtenerCategorias;
+GO
+CREATE PROCEDURE ObtenerCategorias
+AS
+BEGIN
+	SELECT 
+    id_categoria AS IdCategoria,
+    descripcion,
+    ruta_imagen AS Imagen,
+    activo
+	FROM Categoria
 END
 GO

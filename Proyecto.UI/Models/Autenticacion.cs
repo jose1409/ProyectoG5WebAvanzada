@@ -34,6 +34,6 @@ namespace Proyecto.UI.Models
         //Dato Para visualizar y antes de convertir
         public IFormFile? FotografiaFile { get; set; }
 
-        public string? IdRol { get; set; }
+        public string? Rol { get; set; }
     }
 }

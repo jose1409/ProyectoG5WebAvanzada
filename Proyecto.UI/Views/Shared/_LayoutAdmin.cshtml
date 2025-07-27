@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Botero Beauty</title>
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="~/css/layout-custom.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="main-layout">
+        <!-- Sidebar -->
+        <aside class="left-sidebar">
+                <nav class="sidebar-nav">
+                    @{
+                        var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+                    }
+
+                    <ul id="sidebarnav">
+                        <li class="nav-small-cap d-flex justify-content-between align-items-center pe-2">
+                            <span>MENÚ PRINCIPAL</span>
+                            @* <span class="d-flex align-items-center" style="gap: 4px;">
+                                <span class="text-white" style="font-weight: 400;">|</span>
+                                <a href="@Url.Action("Index", "Carrito")"
+                                class="text-white position-relative"
+                                data-toggle="tooltip" data-placement="top" title="Ver carrito"
+                                style="display: inline-block;">
+                                    <i class="fas fa-bag-shopping" style="font-size: 1.1rem;"></i>
+                                    <span class="badge badge-danger rounded-circle position-absolute"
+                                        style="font-size: 0.6rem; top: -4px; right: -6px;">2</span>
+                                </a>
+                            </span> *@
+                        </li>
+
+                        <li class="sidebar-item @(currentController == "Inicio" ? "selected" : "")" >
+                        <a class="sidebar-link" href="@Url.Action("IndexAdmin", "Home")" ><i class="fas fa-home"></i><span class="hide-menu">Inicio</span></a>
+                        </li>
+                        <li class="sidebar-item @(currentController == "Catalogo" ? "selected" : "")" >
+                            <a class="sidebar-link" href="@Url.Action("Index", "CategoriaA")" ><i class="fas fa-box"></i><span class="hide-menu">Catálogo</span></a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link text-danger" href="@Url.Action("CerrarSesion", "Autenticacion")" ><i class="fas fa-sign-out-alt"></i><span class="hide-menu">Cerrar sesión</span></a>
+                        </li>
+                    </ul>
+                </nav>
+            
+        </aside>
+
+        <!-- Header + contenido -->
+        <div class="main-content">
+             <!-- Header superior -->
+            <header class="main-header">
+                <div class="header-logo">
+                    <a href="@Url.Action("Index", "Home")">
+                        <img src="https://www.boterobeauty.com/cdn/shop/files/logo2.png?v=1718741803&width=150" alt="Botero Beauty Logo" />
+                    </a>
+                </div>
+                @* <div class="header-search">
+                    <select class="search-category">
+                        <option>Productos</option>
+                        <option>Servicios</option>
+                    </select>
+                    <input type="text" placeholder="¿Qué estas buscando?" class="search-input" />
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div> *@
+
+                <div> @*Al mejorar quitar este comentario (mejorarlo a nivel visual)*@
+                    <p>Bienvenido, @Context.Session.GetString("Nombre") con tu rol @Context.Session.GetString("Rol"). Puedes editar.</p>
+                </div>
+                <div class="header-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </header> 
+
+            <!-- Contenido principal -->
+            <div class="page-wrapper">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+                <footer class="footer text-center mt-5">
+                    Todos los derechos reservados por Botero Beauty.
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    @* Scripts *@
+    <script src="~/lib/jquery.min.js"></script>
+    <script src="~/lib/popper.min.js"></script>
+    <script src="~/lib/bootstrap.min.js"></script>
+    <script src="~/lib/app.min.js"></script>
+    <script src="~/lib/app.init.js"></script>
+    <script src="~/lib/app-style-switcher.js"></script>
+    <script src="~/lib/perfect-scrollbar.jquery.min.js"></script>
+    <script src="~/lib/sparkline.js"></script>
+    <script src="~/lib/waves.js"></script>
+    <script src="~/lib/sidebarmenu.js"></script>
+    <script src="~/lib/custom.min.js"></script>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</body>
+</html>

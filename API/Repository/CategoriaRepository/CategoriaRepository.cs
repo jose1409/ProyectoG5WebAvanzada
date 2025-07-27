@@ -14,24 +14,69 @@ namespace API.Repository.CategoriaRepository
             _configuration = configuration;
         }
 
-        public Categoria Actualizar(Categoria categoria)
+        public int Actualizar(Categoria categoria)
         {
-            throw new NotImplementedException();
+            using (var contexto = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var resultado = contexto.Execute("EditarCategoria", new
+                {
+                    categoria.IdCategoria,
+                    categoria.Descripcion,
+                    categoria.Imagen,
+                    categoria.Activo
+                });
+                return resultado;
+            }
         }
 
         public Categoria Crear(Categoria categoria)
         {
-            throw new NotImplementedException();
+            using (var contexto = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var resultado = contexto.QueryFirstOrDefault<Categoria>(
+                    "CrearCategoria",
+                    new
+                    {
+                        descripcion = categoria.Descripcion,
+                        ruta_imagen = categoria.Imagen,
+                        activo = categoria.Activo
+                    },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return resultado!;
+            }
         }
 
         public bool Eliminar(int idCategoria)
         {
-            throw new NotImplementedException();
+            using (var conexion = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var resultado = conexion.Execute(
+                    "EliminarCategoria",
+                    new { id_categoria = idCategoria },
+                    commandType: CommandType.StoredProcedure
+                );
+                return resultado > 0;
+            }
         }
 
         public Categoria ObtenerPorId(int idCategoria)
         {
             throw new NotImplementedException();
+        }
+
+        public List<Categoria> ObtenerPorNombre(string nombreCategoria)
+        {
+            using (var contexto = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var resultado = contexto.Query<Categoria>(
+                    "ObtenerPorNombreCategoria",
+                    new { descripcion = nombreCategoria },
+                    commandType: CommandType.StoredProcedure
+                ).ToList();
+                return resultado;
+            }
         }
 
         public List<Categoria> ObtenerTodos()
