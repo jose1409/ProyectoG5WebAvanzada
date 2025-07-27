@@ -20,7 +20,7 @@ GO
 CREATE TABLE Categoria (
     id_categoria INT IDENTITY(1,1) PRIMARY KEY,
     descripcion VARCHAR(1000) NOT NULL,
-    ruta_imagen VARCHAR(1024),
+    ruta_imagen varbinary(MAX),
     activo BIT NOT NULL
 );
 GO
