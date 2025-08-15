@@ -43,6 +43,9 @@
                         <li class="sidebar-item @(currentController == "Catalogo" ? "selected" : "")" >
                             <a class="sidebar-link" href="@Url.Action("Index", "CategoriaA")" ><i class="fas fa-box"></i><span class="hide-menu">Catálogo</span></a>
                         </li>
+                        <li class="sidebar-item @(currentController == "Catalogo" ? "selected" : "")" >
+                            <a class="sidebar-link" href="@Url.Action("Index", "ProductosA")" ><i class="fas fa-box"></i><span class="hide-menu">Productos</span></a>
+                            </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link text-danger" href="@Url.Action("CerrarSesion", "Autenticacion")" ><i class="fas fa-sign-out-alt"></i><span class="hide-menu">Cerrar sesión</span></a>
                         </li>

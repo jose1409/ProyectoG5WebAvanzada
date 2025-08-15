@@ -1,4 +1,5 @@
 using Proyecto.UI.Repository.CategoriaRepository;
+using Proyecto.UI.Repository.ProductoRepository;
 using Proyecto.UI.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ builder.Services.AddControllersWithViews();
 
 //Configuracion de Repositorios
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 
 // Configuración de HttpClient para la API (puerto 7093 HTTPS)
 builder.Services.AddHttpClient("API", client =>

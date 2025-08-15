@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\img\defaultImage.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\img\defaultImage.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
 
 
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />

@@ -193,6 +193,100 @@ END;
 GO
 
 -- =============================================
+-- Listar Productos
+-- =============================================
+IF OBJECT_ID('ObtenerProductos', 'P') IS NOT NULL 
+    DROP PROCEDURE ObtenerProductos;
+GO
+
+CREATE PROCEDURE [dbo].[ObtenerProductos]
+AS
+BEGIN
+    SELECT 
+        id_producto   AS IdProducto,
+        id_categoria  AS IdCategoria,
+        descripcion   AS Descripcion,
+        detalle       AS Detalle,
+        precio        AS Precio,
+        existencias   AS Existencias,
+        ruta_imagen   AS RutaImagen,
+        activo        AS Activo
+    FROM Producto;
+END
+GO
+
+-- =============================================
+-- Editar Productos
+-- =============================================
+IF OBJECT_ID('EditarProducto', 'P') IS NOT NULL DROP PROCEDURE EditarProducto;
+GO
+CREATE PROCEDURE EditarProducto
+    @IdProducto   INT,
+    @IdCategoria  INT,
+    @Descripcion  VARCHAR(1000),
+    @Detalle      VARCHAR(2000),
+    @RutaImagen   VARBINARY(MAX),
+    @Precio       DECIMAL(18,2),
+    @Activo       BIT
+AS
+BEGIN
+    UPDATE producto
+    SET 
+        id_categoria = @IdCategoria,
+        descripcion  = @Descripcion,
+        detalle      = @Detalle,
+        ruta_imagen  = @RutaImagen,
+        precio       = @Precio,
+        activo       = @Activo
+    WHERE id_producto = @IdProducto;
+END
+GO
+-- =============================================
+-- Eliminar Productos
+-- =============================================
+IF OBJECT_ID('EliminarProducto', 'P') IS NOT NULL DROP PROCEDURE EliminarProducto;
+GO
+CREATE PROCEDURE EliminarProducto
+	@idProducto int
+AS
+BEGIN
+    Delete Producto
+	Where id_producto = @idProducto
+END 
+-- =============================================
+-- Crear Productos y devolver objeto con id
+-- =============================================
+IF OBJECT_ID('CrearProducto', 'P') IS NOT NULL DROP PROCEDURE CrearProducto;
+GO
+CREATE PROCEDURE CrearProducto
+    @Descripcion VARCHAR(1000),
+    @Detalle VARCHAR(2000),
+    @Precio DECIMAL(18,2),
+    @IdCategoria INT,
+    @RutaImagen VARBINARY(MAX),
+    @Activo BIT
+AS
+BEGIN
+    -- Insertar el producto
+    INSERT INTO Producto (Descripcion, Detalle, Precio, id_categoria, ruta_imagen, Activo, existencias)
+    VALUES (@Descripcion, @Detalle, @Precio, @IdCategoria, @RutaImagen, @Activo, 0);
+
+    -- Retornar el producto recién insertado
+    SELECT 
+        Id_Producto AS IdProducto,
+        Descripcion,
+        Detalle,
+        Precio,
+        id_categoria,
+        ruta_imagen,
+        Activo,
+		existencias
+    FROM Producto
+    WHERE Id_Producto = SCOPE_IDENTITY();
+END
+GO
+
+-- =============================================
 -- Insertar una nueva rutina
 -- =============================================
 IF OBJECT_ID('InsertarRutina', 'P') IS NOT NULL DROP PROCEDURE InsertarRutina;

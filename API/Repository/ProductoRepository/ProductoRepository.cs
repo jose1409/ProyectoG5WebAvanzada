@@ -14,6 +14,60 @@ namespace API.Repository.ProductoRepository
             _configuration = configuration;
         }
 
+        public int ActualizarProducto(Producto data)
+        {
+            using (var contexto = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var resultado = contexto.Execute("EditarProducto", new
+                {
+                    data.IdProducto,
+                    data.IdCategoria,
+                    data.Descripcion,
+                    data.Detalle,
+                    data.RutaImagen,
+                    data.Precio,
+                    data.Activo
+                });
+                return resultado;
+            }
+        }
+
+        public Producto CrearProducto(Producto data)
+        {
+            using (var contexto = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var resultado = contexto.QueryFirstOrDefault<Producto>(
+                    "CrearProducto",
+                    new
+                    {
+                        data.Descripcion,
+                        data.Detalle,
+                        data.Precio,
+                        data.IdCategoria,
+                        data.RutaImagen,
+                        data.Activo
+                    },
+                    commandType: CommandType.StoredProcedure
+                );
+                return resultado!;
+            }
+        }
+
+        public bool EliminarProducto(int idProducto)
+        {
+            using (var conexion = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var resultado = conexion.Execute(
+                    "EliminarProducto", new
+                    {
+                        idProducto
+                    },
+                    commandType: CommandType.StoredProcedure
+                );
+                return resultado > 0;
+            }
+        }
+
         public List<Producto> ObtenerTodos()
         {
             using (var contexto = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value))
