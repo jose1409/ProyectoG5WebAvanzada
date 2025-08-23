@@ -1,6 +1,7 @@
 ﻿
 using Proyecto.UI.Models;
 using Proyecto.UI.Utils;
+using System.Text.Json;
 
 namespace Proyecto.UI.Repository.ProductoRepository
 {
@@ -86,17 +87,67 @@ namespace Proyecto.UI.Repository.ProductoRepository
             {
                 http.BaseAddress = new Uri(_configuration.GetSection("Start:ApiWeb").Value!);
                 http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _httpContextAccessor!.HttpContext!.Session.GetString("JWT"));
+
                 var resultado = http.GetAsync("Producto/ObtenerTodos").Result;
+
+                var rawResponse = resultado.Content.ReadAsStringAsync().Result;
+                Console.WriteLine("🔍 Respuesta cruda del API:");
+                Console.WriteLine(rawResponse);
 
                 if (resultado.IsSuccessStatusCode)
                 {
-                    var datos = resultado.Content.ReadFromJsonAsync<ApiResponse<List<Producto>>>().Result;
-                    return datos?.Contenido!;
+                    try
+                    {
+                        var datos = JsonSerializer.Deserialize<ApiResponse<List<Producto>>>(rawResponse, new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
+
+                        return datos?.Contenido ?? new List<Producto>();
+                    }
+                    catch (JsonException ex)
+                    {
+                        Console.WriteLine("❌ Error al deserializar la respuesta JSON: " + ex.Message);
+                        throw;
+                    }
                 }
                 else
                 {
-                    var respuesta = resultado.Content.ReadFromJsonAsync<ApiResponse>().Result;
-                    throw new Exception(respuesta!.Mensaje);
+                    try
+                    {
+                        var error = JsonSerializer.Deserialize<ApiResponse>(rawResponse, new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
+
+                        throw new Exception(error?.Mensaje ?? "Error desconocido al obtener productos.");
+                    }
+                    catch
+                    {
+                        throw new Exception($"Error del API: {rawResponse}");
+                    }
+                }
+            }
+        }
+
+                public async Task<List<Producto>> ObtenerPorCategoria(int idCategoria)
+        {
+            using (var http = _http.CreateClient())
+            {
+                http.BaseAddress = new Uri(_configuration.GetSection("Start:ApiWeb").Value!);
+                http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _httpContextAccessor.HttpContext!.Session.GetString("JWT"));
+
+                var resultado = await http.GetAsync($"Producto/ObtenerPorCategoria/{idCategoria}");
+
+                if (resultado.IsSuccessStatusCode)
+                {
+                    var respuesta = await resultado.Content.ReadFromJsonAsync<ApiResponse<List<Producto>>>();
+                    return respuesta?.Contenido!;
+                }
+                else
+                {
+                    var contenido = await resultado.Content.ReadAsStringAsync();
+                    throw new Exception($"Error en API: {contenido}");
                 }
             }
         }

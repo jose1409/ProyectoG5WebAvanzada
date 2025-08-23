@@ -147,3 +147,23 @@
 .seccion-cuidados {
     background-color: #fff;
 }
+
+.sidebar-link.subcategoria-link {
+    font-size: 0.85rem;
+    padding-left: 2.5rem; /* más indentado que los demás */
+    color: #fff;
+}
+
+.sidebar-link.subcategoria-link:hover {
+    color: #e0e0e0;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#collapseCategorias ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#collapseCategorias ul li::before {
+    content: none;
+}

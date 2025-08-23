@@ -61,21 +61,9 @@ INSERT INTO [dbo].[RutinaProducto] (IdRutina, id_producto) VALUES
 GO
 
 -- Team Members
-INSERT INTO TeamMember (Nombre, Puesto, ImagenUrl, FacebookUrl, TwitterUrl, LinkedinUrl)
+INSERT INTO TeamMember (FullName, Puesto, PhotoPath, FacebookUrl, TwitterUrl, LinkedinUrl)
 VALUES
-('IBG', 'Fundador', '/img/equipo/ibg.jpg', 'https://facebook.com/ibg', 'https://twitter.com/ibg', 'https://linkedin.com/in/ibg'),
-('Marcela Botero', 'Mercadeo y Ventas', '/img/equipo/marcela-botero.jpg', 'https://facebook.com/marcela', 'https://twitter.com/marcela', 'https://linkedin.com/in/marcela'),
-('Teresa Duque', 'Atención al cliente', '/img/equipo/teresa-duque.jpg', 'https://facebook.com/teresa', 'https://twitter.com/teresa', 'https://linkedin.com/in/teresa');
+('IBG', 'Fundador', 'https://imgcdn.stablediffusionweb.com/2024/10/29/e082f0a9-f4f8-4f3d-9333-30622c330bd7.jpg', 'https://facebook.com/ibg', 'https://twitter.com/ibg', 'https://linkedin.com/in/ibg'),
+('Marcela Botero', 'Mercadeo y Ventas', 'https://imgcdn.stablediffusionweb.com/2024/10/2/bcfc5dad-85c2-44a5-bec5-9450bcdac6fd.jpg', 'https://facebook.com/marcela', 'https://twitter.com/marcela', 'https://linkedin.com/in/marcela'),
+('Teresa Duque', 'Atención al cliente', 'https://static.vecteezy.com/system/resources/previews/043/210/048/non_2x/portrait-of-a-young-smiling-woman-for-lifestyle-and-apparel-advertising-free-photo.jpeg', 'https://facebook.com/teresa', 'https://twitter.com/teresa', 'https://linkedin.com/in/teresa');
 GO
-
-UPDATE TeamMember
-SET PhotoPath = '/img/team/ibg.jpg'
-WHERE FullName = 'IBG';
-
-UPDATE TeamMember
-SET PhotoPath = '/img/team/marcela.jpg'
-WHERE FullName = 'MARCELA BOTERO';
-
-UPDATE TeamMember
-SET PhotoPath = '/img/team/teresa.jpg'
-WHERE FullName = 'TERESA DUQUE';

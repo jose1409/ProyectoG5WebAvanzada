@@ -13,6 +13,7 @@ namespace API.Repository.ProductoRepository
         int ActualizarProducto(Producto data);
         Producto CrearProducto(Producto data);
         bool EliminarProducto(int idProducto);
+        List<Producto> ObtenerPorCategoria(int idCategoria);
     }
 }
 

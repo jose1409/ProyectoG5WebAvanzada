@@ -59,5 +59,12 @@ namespace API.Controllers
             bool resultado = _productoRepository.EliminarProducto(idProducto);
             return Ok(_utilitarios.RespuestaCorrecta("Producto eliminada correctamente."));
         }
+
+        [HttpGet("ObtenerPorCategoria/{idCategoria}")]
+        public IActionResult ObtenerPorCategoria(int idCategoria)
+        {
+            var productos = _productoRepository.ObtenerPorCategoria(idCategoria);
+            return Ok(_utilitarios.RespuestaCorrecta(productos));
+        }
     }
 }

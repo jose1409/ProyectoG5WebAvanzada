@@ -1,0 +1,44 @@
+@model Proyecto.UI.Models.CategoriaViewModel
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = $"Categoría: {Model.Descripcion}";
+}
+
+<div class="banner">
+    <h2>@Model.Descripcion</h2>
+    <img src="@(Model.Imagen != null ? "data:image/png;base64," + Convert.ToBase64String(Model.Imagen) : "/img/defaultImage.jpg")" style="height: 200px;" />
+</div>
+
+<div class="row mt-4">
+    @foreach (var producto in Model.Productos)
+    {
+        var imagenBase64 = (producto.RutaImagen != null && producto.RutaImagen.Length > 0)
+            ? "data:image/png;base64," + Convert.ToBase64String(producto.RutaImagen)
+            : "/img/defaultImage.jpg";
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <img src="@imagenBase64" class="card-img-top" alt="@producto.Descripcion"
+                     style="height:200px; object-fit:cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-center">@producto.Descripcion</h5>
+                    <p class="card-text text-muted text-center">@producto.Detalle</p>
+                    <p class="precio text-center">₡@producto.Precio.ToString("N0")</p>
+
+                    <div class="mt-auto">
+                        <a asp-controller="Productos" asp-action="Detalles" asp-route-id="@producto.IdProducto"
+                           class="btn btn-sm btn-fucsia w-100 mb-2">
+                            Ver Detalles
+                        </a>
+
+                        <form asp-controller="Carrito" asp-action="Agregar" method="post">
+                            <input type="hidden" name="idProducto" value="@producto.IdProducto" />
+                            <button type="submit" class="btn btn-sm btn-verde w-100">Agregar al Carrito</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
