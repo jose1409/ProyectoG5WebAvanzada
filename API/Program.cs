@@ -1,48 +1,86 @@
 using System.Text;
 using System.Text.Json;
+using System.Data;
+using Microsoft.Data.SqlClient;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
+using API.Utils;
+
+// Repos
 using API.Repository;
 using API.Repository.AutenticacionRepository;
 using API.Repository.CategoriaRepository;
 using API.Repository.ProductoRepository;
-using API.Utils;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Data;
-using Microsoft.Data.SqlClient;
 using API.Repository.RutinaRepository;
-
+using API.Repository.CarritoRepository;   
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Controllers
 builder.Services.AddControllers();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger + JWT (para probar Bearer en Swagger)
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IRutinaRepository, RutinaRepository>();
+builder.Services.AddSwaggerGen(c =>
+{
+    // Security: Bearer
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "BoteroBeauty API",
+        Version = "v1"
+    });
 
-// Inyeccion de Utils
+    var securityScheme = new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "JWT Bearer. Ejemplo: **Bearer {tu_token}**",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Reference = new Microsoft.OpenApi.Models.OpenApiReference
+        {
+            Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        }
+    };
+
+    c.AddSecurityDefinition("Bearer", securityScheme);
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        { securityScheme, Array.Empty<string>() }
+    });
+});
+
+// Utils
 builder.Services.AddScoped<IUtilitarios, Utilitarios>();
 
-// Inyeccion de Repositories
+// Repos existentes
 builder.Services.AddScoped<IAutenticacionRepository, AutenticacionRepository>();
-
 builder.Services.AddScoped<IAboutRepository, AboutRepository>();
-
-builder.Services.AddScoped<IDbConnection>(sp =>
-    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+builder.Services.AddScoped<IRutinaRepository, RutinaRepository>();
+builder.Services.AddScoped<ICarritoRepository, CarritoRepository>();
 
 
-// **Inyeccion de IDbConnection para Dapper**
+// 👇 Repos carrito (nuevo)
+builder.Services.AddScoped<ICarritoRepository, CarritoRepository>();
+
+// **IDbConnection para Dapper (una sola vez, sin duplicados)**
 builder.Services.AddScoped<IDbConnection>(sp =>
-    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    var cs = builder.Configuration.GetConnectionString("DefaultConnection")
+             ?? throw new InvalidOperationException("Falta ConnectionString 'DefaultConnection'");
+    var conn = new SqlConnection(cs);
+    conn.Open();               // 👈 Importante: abierta por solicitud
+    return conn;
+});
 
-// Configuracion JWT
-var llaveSegura = builder.Configuration["Start:LlaveSegura"]!.ToString();
-
+// JWT
+var llaveSegura = builder.Configuration["Start:LlaveSegura"]!;
 builder.Services.AddAuthentication(opt =>
 {
     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -77,7 +115,9 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 
-// Configuraci�n CORS
+
+
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirTodo", policy =>
@@ -85,12 +125,13 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin()
               .AllowAnyMethod()
               .AllowAnyHeader();
+        // Si luego usás cookies/credenciales: usar .AllowCredentials() y configurar orígenes explícitos
     });
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -101,7 +142,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("PermitirTodo");
 
-app.UseAuthentication(); // Aseguramos que la autenticaci�n JWT est� activa
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

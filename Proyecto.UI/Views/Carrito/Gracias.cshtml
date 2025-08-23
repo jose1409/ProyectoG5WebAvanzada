@@ -1,0 +1,51 @@
+﻿@model string
+@{
+    ViewData["Title"] = "¡Gracias por tu compra!";
+}
+
+<div class="container mt-5">
+    <div class="text-center">
+        <div class="display-1 mb-3">✅</div>
+        <h2 class="mb-2">Pedido realizado</h2>
+        <p class="lead mb-4">¡Gracias por tu compra!</p>
+
+        <div class="card mx-auto" style="max-width: 520px;">
+            <div class="card-body">
+                <p class="mb-1">Número de pedido:</p>
+                <p class="h4 fw-bold">@Model</p>
+                <hr />
+                <p class="text-muted mb-0">
+                    Enviaremos la confirmación y el detalle a tu correo registrado.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2 justify-content-center flex-wrap">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                Seguir comprando
+            </a>
+            <a asp-controller="Carrito" asp-action="Index" class="btn btn-outline-secondary">
+                Ver carrito
+            </a>
+            <button type="button" class="btn btn-outline-success" onclick="window.print()">
+                Imprimir comprobante
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Actualiza el badge del carrito por si quedó desincronizado tras el checkout
+        (async () => {
+            try {
+                const res = await fetch('/Carrito/Badge');
+                if (!res.ok) return;
+                const data = await res.json();
+                const badge = document.getElementById('cart-badge');
+                if (badge && typeof data.count === 'number') badge.textContent = data.count;
+            } catch (e) { /* noop */ }
+        })();
+    </script>
+}
+
