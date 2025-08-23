@@ -49,7 +49,13 @@ namespace API.Controllers
         public IActionResult EliminarCategoria(int id)
         {
             bool resultado = _categoriaRepository.Eliminar(id);
-            return Ok(_utilitarios.RespuestaCorrecta("Categoría eliminada correctamente."));
+            if(resultado)
+            {
+                return Ok(_utilitarios.RespuestaCorrecta("Categoría eliminada correctamente."));
+            } else
+            {
+                return Conflict(_utilitarios.RespuestaIncorrecta("No se puede eliminar la categoria ya que posee productos vinculados"));
+            }
         }
     }
 }

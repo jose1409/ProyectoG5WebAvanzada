@@ -73,10 +73,13 @@ namespace Proyecto.UI.Repository.CategoriaRepository
                 {
                     return resultado.IsSuccessStatusCode;
                 }
+                else if (resultado.StatusCode == System.Net.HttpStatusCode.Conflict) // 409
+                {
+                    return false;
+                }
                 else
                 {
-                    var datos = resultado.Content.ReadFromJsonAsync<ApiResponse>().Result;
-                    throw new Exception(datos!.Mensaje);
+                    return false;
                 }
             }
         }

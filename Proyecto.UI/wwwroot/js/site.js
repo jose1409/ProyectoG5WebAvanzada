@@ -1,4 +1,17 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function mostrarMensajesTempData() {
+    const mensaje = document.getElementById('mensajeTempData').innerText.trim();
+    const error = document.getElementById('errorTempData').innerText.trim();
 
-// Write your JavaScript code.
+    if (mensaje.length > 0) {
+        showToast('success', mensaje);
+    }
+
+    if (error.length > 0) {
+        showToast('error', error);
+    }
+}
+
+// Ejecutar al cargar la página
+document.addEventListener("DOMContentLoaded", function () {
+    mostrarMensajesTempData();
+});

@@ -400,13 +400,17 @@ END
 IF OBJECT_ID('EliminarCategoria', 'P') IS NOT NULL DROP PROCEDURE EliminarCategoria;
 GO
 CREATE PROCEDURE EliminarCategoria
-	@id_categoria int
+    @id_categoria INT
 AS
 BEGIN
-    Delete Categoria
-	Where id_categoria = @id_categoria
-END 
-
+    -- Verificamos si la categoría tiene productos asociados
+    IF EXISTS (SELECT 1 FROM Producto WHERE id_categoria = @id_categoria)
+    BEGIN
+        RETURN;
+    END
+    DELETE FROM Categoria
+    WHERE id_categoria = @id_categoria;
+END
 
 -- =============================================
 -- Obtener categoria x nombre

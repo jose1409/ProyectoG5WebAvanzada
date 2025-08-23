@@ -1,0 +1,237 @@
+﻿/* === Base consistente con tu homepage === */
+.contenido-centrado {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.admin-botero {
+    background-color: #fdf9fc;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+/* Encabezado */
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 24px 0 14px;
+}
+
+.admin-title {
+    color: #993bb9;
+    font-weight: 800;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    margin: 0;
+}
+
+/* Botones */
+.btn-botero-primary {
+    background-color: #993bb9;
+    color: #fff !important;
+    border: 0;
+    border-radius: 12px;
+    padding: 8px 14px;
+    font-weight: 600;
+    transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+
+    .btn-botero-primary:hover,
+    .btn-botero-primary:focus {
+        opacity: .96;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px rgba(153, 59, 185, .25);
+    }
+
+.btn-botero-link {
+    color: #993bb9 !important;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+    .btn-botero-link:hover {
+        text-decoration: underline;
+    }
+
+/* Tabla estilo “tarjetas” */
+.table-wrapper {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    padding: 16px;
+    overflow: hidden;
+}
+
+.table-botero {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+    .table-botero thead th {
+        color: #6b207d;
+        font-weight: 700;
+        font-size: .95rem;
+        border: 0;
+        padding: 12px 14px;
+    }
+
+    .table-botero tbody tr {
+        background: #fff;
+        box-shadow: 0 6px 16px rgba(0,0,0,.05);
+        border-radius: 12px;
+    }
+
+    .table-botero tbody td {
+        border-top: 0 !important;
+        padding: 12px 14px;
+        vertical-align: middle;
+    }
+
+    .table-botero tbody tr:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0,0,0,.06);
+    }
+
+/* Miniatura */
+.thumb {
+    width: 80px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+/* Estado */
+.badge-estado {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: .85rem;
+}
+
+.badge-activo {
+    background: #e9f9f4;
+    color: #128f73;
+}
+
+.badge-inactivo {
+    background: #f9e9f1;
+    color: #9a2f4f;
+}
+
+/* Modal */
+.modal-botero .modal-content {
+    border: 0;
+    border-radius: 16px;
+    box-shadow: 0 16px 36px rgba(0,0,0,.15);
+}
+
+.modal-botero .modal-header {
+    background: linear-gradient(135deg, #AF5CD9, #9850db);
+    color: #fff;
+    border: 0;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.modal-botero .modal-title {
+    font-weight: 700;
+}
+
+.modal-botero .close span {
+    color: #fff;
+    opacity: .9;
+}
+
+.modal-botero .form-group label {
+    font-weight: 600;
+    color: #6b207d;
+}
+
+/* File input + preview */
+.file-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#previewImagen {
+    display: block;
+}
+
+    #previewImagen img {
+        max-width: 120px;
+        max-height: 120px;
+        border-radius: 12px;
+        box-shadow: 0 6px 16px rgba(0,0,0,.08);
+    }
+
+/* Toggle switch (respeta tu markup) */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+}
+
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle-switch .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ddd;
+        transition: .2s;
+        border-radius: 26px;
+    }
+
+        .toggle-switch .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            top: 3px;
+            background-color: #fff;
+            transition: .2s;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0,0,0,.2);
+        }
+
+    .toggle-switch input:checked + .slider {
+        background-color: #993bb9;
+    }
+
+        .toggle-switch input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+    /* Accesibilidad */
+    .btn-botero-primary:focus-visible,
+    .btn-botero-link:focus-visible,
+    .toggle-switch input:focus-visible + .slider {
+        outline: 3px solid rgba(153,59,185,.25);
+        outline-offset: 2px;
+    }
+
+/* Responsive */
+@media (max-width: 576px) {
+    .admin-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+}
