@@ -24,7 +24,7 @@ namespace API.Repository.RutinaRepository
         public async Task<RutinaConProductos?> ObtenerRutinaPorId(int id)
         {
             using var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-            
+
             var diccionario = new Dictionary<int, RutinaConProductos>();
 
             var resultado = await connection.QueryAsync<RutinaConProductos, ProductoRutina, RutinaConProductos>(
@@ -35,11 +35,31 @@ namespace API.Repository.RutinaRepository
                     {
                         rutinaExistente = rutina;
                         rutinaExistente.Productos = new List<ProductoRutina>();
+
+                        // Convertir imagen binaria a base64
+                        if (rutina.Imagen is byte[] binario)
+                        {
+                            rutinaExistente.RutaImagen = $"data:image/png;base64,{Convert.ToBase64String(binario)}";
+                        }
+                        else
+                        {
+                            rutinaExistente.RutaImagen = "";
+                        }
+
                         diccionario.Add(rutina.IdRutina, rutinaExistente);
                     }
 
                     if (producto != null && producto.IdProducto != 0)
                     {
+                        if (producto.ImagenBinaria is byte[] bin)
+                        {
+                            producto.RutaImagen = $"data:image/png;base64,{Convert.ToBase64String(bin)}";
+                        }
+                        else
+                        {
+                            producto.RutaImagen = "";
+                        }
+
                         rutinaExistente.Productos.Add(producto);
                     }
 

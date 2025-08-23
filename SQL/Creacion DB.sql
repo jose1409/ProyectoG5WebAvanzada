@@ -39,6 +39,13 @@ CREATE TABLE Producto (
 );
 GO
 
+-- Crear tabla: Rol
+CREATE TABLE Rol (
+    id_rol INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(20),
+);
+GO
+
 -- Crear tabla: Usuario
 CREATE TABLE Usuario (
     idUsuario INT IDENTITY(1,1) PRIMARY KEY,
@@ -52,13 +59,6 @@ CREATE TABLE Usuario (
     activo BIT NOT NULL DEFAULT 1,
 	id_rol INT NOT NULL DEFAULT 1,
     FOREIGN KEY (id_rol) REFERENCES Rol(id_rol)
-);
-GO
-
--- Crear tabla: Rol
-CREATE TABLE Rol (
-    id_rol INT IDENTITY(1,1) PRIMARY KEY,
-    nombre VARCHAR(20),
 );
 GO
 
@@ -102,11 +102,51 @@ GO
  
 CREATE TABLE dbo.TeamMember (
     Id INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(100) NOT NULL,
+    FullName NVARCHAR(100) NOT NULL,
     Puesto NVARCHAR(100) NOT NULL,
-    ImagenUrl NVARCHAR(255) NULL,
+    PhotoPath NVARCHAR(255) NULL,
     FacebookUrl NVARCHAR(255) NULL,
     TwitterUrl NVARCHAR(255) NULL,
     LinkedinUrl NVARCHAR(255) NULL
 );
 GO
+
+
+-- Crear tabla: Carrito
+CREATE TABLE Carrito (
+    IdCarrito INT IDENTITY(1,1) PRIMARY KEY,
+    IdUsuario INT NOT NULL,
+    FechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
+    FOREIGN KEY (IdUsuario) REFERENCES Usuario(idUsuario)
+);
+
+-- Crear tabla: CarritoProducto
+CREATE TABLE CarritoProducto (
+    IdCarritoProducto INT IDENTITY(1,1) PRIMARY KEY,
+    IdCarrito INT NOT NULL,
+    IdProducto INT NOT NULL,
+    Cantidad INT NOT NULL,
+    FOREIGN KEY (IdCarrito) REFERENCES Carrito(IdCarrito),
+    FOREIGN KEY (IdProducto) REFERENCES Producto(id_producto)
+);
+
+-- Crear tabla: Orden
+CREATE TABLE Orden (
+    IdOrden INT IDENTITY(1,1) PRIMARY KEY,
+    IdUsuario INT NOT NULL,
+    FechaOrden DATETIME NOT NULL DEFAULT GETDATE(),
+    Total FLOAT NOT NULL,
+    Estado VARCHAR(50) NOT NULL,
+    FOREIGN KEY (IdUsuario) REFERENCES Usuario(idUsuario)
+);
+
+-- Crear tabla: OrdenDetalle
+CREATE TABLE OrdenDetalle (
+    IdDetalle INT IDENTITY(1,1) PRIMARY KEY,
+    IdOrden INT NOT NULL,
+    IdProducto INT NOT NULL,
+    Cantidad INT NOT NULL,
+    PrecioUnitario FLOAT NOT NULL,
+    FOREIGN KEY (IdOrden) REFERENCES Orden(IdOrden),
+    FOREIGN KEY (IdProducto) REFERENCES Producto(id_producto)
+);

@@ -13,5 +13,7 @@ namespace Proyecto.UI.Repository.CategoriaRepository
         List<Categoria> ObtenerTodasCategorias();
 
         Task<List<Categoria>> ObtenerCategoriaPoNombred(string descripcion);
+
+        Task<Categoria> ObtenerPorId(int idCategoria);
     }
 }

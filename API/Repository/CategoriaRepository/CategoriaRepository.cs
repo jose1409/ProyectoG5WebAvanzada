@@ -63,7 +63,16 @@ namespace API.Repository.CategoriaRepository
 
         public Categoria ObtenerPorId(int idCategoria)
         {
-            throw new NotImplementedException();
+            using (var conexion = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var resultado = conexion.QueryFirstOrDefault<Categoria>(
+                    "ObtenerCategoriaPorId",
+                    new { id_categoria = idCategoria },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return resultado!;
+            }
         }
 
         public List<Categoria> ObtenerPorNombre(string nombreCategoria)

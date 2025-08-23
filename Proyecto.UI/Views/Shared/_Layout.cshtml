@@ -57,25 +57,38 @@
                         <a class="sidebar-link" href="@Url.Action("Catalogo", "Productos")">
                             <i class="fas fa-box"></i><span class="hide-menu">Catálogo</span>
                         </a>
-                    </li>
-                    <li class="sidebar-item @(currentController == "Maquillaje" ? "selected" : "")">
-                        <a class="sidebar-link" href="@Url.Action("Index", "Maquillaje")">
-                            <i class="fas fa-magic"></i><span class="hide-menu">Maquillaje</span>
+                    @{
+                        bool esCategoriaActiva = currentController == "Categoria";
+                    }
+
+                    <li class="sidebar-item @(esCategoriaActiva ? "selected" : "")">
+                        <a class="sidebar-link has-arrow @(esCategoriaActiva ? "" : "collapsed")"
+                        href="#"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseCategorias"
+                        aria-expanded="@(esCategoriaActiva.ToString().ToLower())"
+                        aria-controls="collapseCategorias">
+                            <i class="fas fa-tags"></i><span class="hide-menu">Categorías</span>
                         </a>
-                    </li>
-                    <li class="sidebar-item @(currentController == "CuidadoPiel" ? "selected" : "")">
-                        <a class="sidebar-link" href="@Url.Action("Index", "CuidadoPiel")">
-                            <i class="fas fa-spa"></i><span class="hide-menu">Cuidado de la piel</span>
-                        </a>
+                        <div class="collapse @(esCategoriaActiva ? "show" : "")" id="collapseCategorias">
+                            <ul class="nav flex-column ms-3">
+                                @if (ViewBag.Categorias != null)
+                                {
+                                    foreach (var cat in ViewBag.Categorias as List<Categoria>)
+                                    {
+                                        <li class="sidebar-item">
+                                            <a class="sidebar-link subcategoria-link" asp-controller="Categoria" asp-action="PorCategoria" asp-route-id="@cat.IdCategoria">
+                                                <i class="fas fa-circle" style="font-size: 0.4rem; margin-right: 8px;"></i> @cat.Descripcion
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
                     </li>
                     <li class="sidebar-item @(currentController == "Rutinas" ? "selected" : "")">
                         <a class="sidebar-link" href="@Url.Action("Index", "Rutinas")">
                             <i class="fas fa-seedling"></i><span class="hide-menu">Rutinas</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item @(currentController == "Promociones" ? "selected" : "")">
-                        <a class="sidebar-link" href="@Url.Action("Index", "Promociones")">
-                            <i class="fas fa-tags"></i><span class="hide-menu">Promociones</span>
                         </a>
                     </li>
                     <li class="sidebar-item @(currentController == "Perfil" ? "selected" : "")">
@@ -148,6 +161,7 @@
     @* Scripts *@
     <script src="~/lib/jquery.min.js"></script>
     <script src="~/lib/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
     <script src="~/lib/bootstrap.min.js"></script>
     <script src="~/lib/app.min.js"></script>
     <script src="~/lib/app.init.js"></script>

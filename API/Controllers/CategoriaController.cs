@@ -49,12 +49,32 @@ namespace API.Controllers
         public IActionResult EliminarCategoria(int id)
         {
             bool resultado = _categoriaRepository.Eliminar(id);
-            if(resultado)
+            if (resultado)
             {
                 return Ok(_utilitarios.RespuestaCorrecta("Categoría eliminada correctamente."));
-            } else
+            }
+            else
             {
                 return Conflict(_utilitarios.RespuestaIncorrecta("No se puede eliminar la categoria ya que posee productos vinculados"));
+            }
+        }
+        
+        [HttpGet("ObtenerPorId/{id}")]
+        public IActionResult ObtenerPorId(int id)
+        {
+            try
+            {
+                var categoria = _categoriaRepository.ObtenerPorId(id);
+                if (categoria == null)
+                {
+                    return NotFound(_utilitarios.RespuestaIncorrecta("Categoría no encontrada."));
+                }
+
+                return Ok(_utilitarios.RespuestaCorrecta(categoria));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _utilitarios.RespuestaIncorrecta("Error en el servidor: " + ex.Message));
             }
         }
     }

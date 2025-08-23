@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Proyecto.UI.Models;
+using Proyecto.UI.Repository.CategoriaRepository;
 
 namespace Proyecto.UI.Controllers
 {
@@ -8,13 +9,18 @@ namespace Proyecto.UI.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ICategoriaRepository _categoriaRepository;
+
+        public HomeController(ILogger<HomeController> logger, ICategoriaRepository categoriaRepository)
         {
             _logger = logger;
+            _categoriaRepository = categoriaRepository;
         }
 
         public IActionResult Index()
         {
+            var categorias = _categoriaRepository.ObtenerTodasCategorias();
+            ViewBag.Categorias = categorias;
             return View();
         }
 

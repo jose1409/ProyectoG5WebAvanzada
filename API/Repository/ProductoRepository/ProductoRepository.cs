@@ -93,5 +93,33 @@ namespace API.Repository.ProductoRepository
                 return resultado;
             }
         }
+
+        public List<Producto> ObtenerPorCategoria(int idCategoria)
+        {
+            using var connection = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value);
+            connection.Open();
+
+            using var command = new SqlCommand("ObtenerProductosPorCategoria", connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@IdCategoria", idCategoria);
+
+            using var reader = command.ExecuteReader();
+            var productos = new List<Producto>();
+            while (reader.Read())
+            {
+                productos.Add(new Producto
+                {
+                    IdProducto = Convert.ToInt32(reader["id_producto"]),
+                    Descripcion = reader["descripcion"].ToString()!,
+                    Detalle = reader["detalle"].ToString()!,
+                    Precio = Convert.ToDouble(reader["precio"]),
+                    Existencias = Convert.ToInt32(reader["existencias"]),
+                    RutaImagen = reader["ruta_imagen"] as byte[],
+                    Activo = Convert.ToBoolean(reader["activo"])
+                });
+            }
+
+            return productos;
+        }
     }
 }

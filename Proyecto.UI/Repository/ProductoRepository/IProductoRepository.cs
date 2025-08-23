@@ -12,5 +12,7 @@ namespace Proyecto.UI.Repository.ProductoRepository
         bool EliminarProducto(int idProducto);
 
         List<Producto> ObtenerTodos();
+
+        Task<List<Producto>> ObtenerPorCategoria(int idCategoria);
     }
 }

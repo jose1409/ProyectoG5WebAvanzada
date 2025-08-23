@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace API.Models
 {
     public class RutinaConProductos
@@ -5,7 +7,12 @@ namespace API.Models
         public int IdRutina { get; set; }
         public string Nombre { get; set; } = "";
         public string? Descripcion { get; set; }
-        public string? Imagen { get; set; }
+
+        public byte[]? Imagen { get; set; } 
+
+        [NotMapped]
+        public string RutaImagen { get; set; } = ""; 
+
         public List<ProductoRutina> Productos { get; set; } = new();
     }
 
@@ -13,8 +20,11 @@ namespace API.Models
     {
         public int IdProducto { get; set; }
         public string Descripcion { get; set; } = "";
-        public string? Detalle { get; set; }
+        public string Detalle { get; set; } = "";
         public decimal Precio { get; set; }
-        public string? RutaImagen { get; set; }
+        public int Existencias { get; set; }
+
+        public byte[]? ImagenBinaria { get; set; }
+        public string RutaImagen { get; set; } = "";
     }
 }

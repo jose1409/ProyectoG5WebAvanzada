@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using Proyecto.UI.Models;
 using Proyecto.UI.Utils;
+using Proyecto.UI.Repository.CategoriaRepository;
 using static System.Net.WebRequestMethods;
 
 namespace Proyecto.UI.Repository.CategoriaRepository
@@ -12,7 +13,7 @@ namespace Proyecto.UI.Repository.CategoriaRepository
         private readonly IHttpClientFactory _http;
         private readonly IUtilitarios _utilitarios;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        
+
         public CategoriaRepository(IConfiguration configuration, IHttpClientFactory http, IUtilitarios utilitarios, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
@@ -34,7 +35,8 @@ namespace Proyecto.UI.Repository.CategoriaRepository
                 {
                     var datos = resultado.Content.ReadFromJsonAsync<ApiResponse<int>>().Result;
                     return datos!.Contenido;
-                } else
+                }
+                else
                 {
                     var datos = resultado.Content.ReadFromJsonAsync<ApiResponse<int>>().Result;
                     throw new Exception(datos!.Mensaje);
@@ -64,7 +66,7 @@ namespace Proyecto.UI.Repository.CategoriaRepository
 
         public bool EliminarCategoria(int idCategoria)
         {
-            using (var http = _http.CreateClient()) 
+            using (var http = _http.CreateClient())
             {
                 http.BaseAddress = new Uri(_configuration.GetSection("Start:ApiWeb").Value!);
                 http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _httpContextAccessor!.HttpContext!.Session.GetString("JWT"));
@@ -94,20 +96,46 @@ namespace Proyecto.UI.Repository.CategoriaRepository
             using (var http = _http.CreateClient())
             {
                 http.BaseAddress = new Uri(_configuration.GetSection("Start:ApiWeb").Value!);
-                http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _httpContextAccessor!.HttpContext!.Session.GetString("JWT"));
-                var resultado = http.GetAsync("Categoria/ObtenerTodos").Result;
+                http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _httpContextAccessor!.HttpContext!.Session.GetString("JwtToken"));
+
+                var resultado = http.GetAsync($"Categoria/ObtenerTodos").Result;
+
+                if (!resultado.IsSuccessStatusCode)
+                {
+                    var contenidoError = resultado.Content.ReadAsStringAsync().Result;
+                    throw new Exception($"Error al obtener categorías: {contenidoError}");
+                }
+
+                var respuesta = resultado.Content.ReadFromJsonAsync<ApiResponse<List<Categoria>>>().Result;
+
+                return respuesta?.Contenido ?? new List<Categoria>();
+            }
+        }
+
+        public async Task<Categoria> ObtenerPorId(int id)
+        {
+            using (var http = _http.CreateClient())
+            {
+                http.BaseAddress = new Uri(_configuration.GetSection("Start:ApiWeb").Value!);
+                http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _httpContextAccessor.HttpContext!.Session.GetString("JWT"));
+
+                var resultado = await http.GetAsync($"Categoria/ObtenerPorId/{id}");
 
                 if (resultado.IsSuccessStatusCode)
                 {
-                    var datos = resultado.Content.ReadFromJsonAsync<ApiResponse<List<Categoria>>>().Result;
-                    return datos?.Contenido!;
+                    var raw = await resultado.Content.ReadAsStringAsync();
+                    Console.WriteLine("RAW RESPONSE: " + raw);
+
+                    var respuesta = await resultado.Content.ReadFromJsonAsync<ApiResponse<Categoria>>();
+                    return respuesta!.Contenido!;
                 }
                 else
                 {
-                    var respuesta = resultado.Content.ReadFromJsonAsync<ApiResponse>().Result;
-                    throw new Exception(respuesta!.Mensaje);
+                    var contenido = await resultado.Content.ReadAsStringAsync();
+                    throw new Exception($"Error en API: {contenido}");
                 }
             }
         }
+
     }
 }

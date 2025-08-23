@@ -360,15 +360,19 @@ GO
 CREATE OR ALTER PROCEDURE sp_GetCompanyInfo
 AS
 BEGIN
-    SELECT TOP 1 * FROM CompanyInfo WHERE IsActive = 1 ORDER BY Id DESC;
+    SELECT TOP 1 * 
+    FROM CompanyInfo
+    ORDER BY Id DESC;
 END
 GO
 
--- Obtener miembros activos del equipo
+-- Obtener miembros del equipo
 CREATE OR ALTER PROCEDURE sp_GetTeamMembers
 AS
 BEGIN
-    SELECT * FROM TeamMember WHERE IsActive = 1 ORDER BY DisplayOrder;
+    SELECT * 
+    FROM TeamMember
+    ORDER BY Id ASC;
 END
 GO
 
@@ -466,4 +470,86 @@ BEGIN
     activo
 	FROM Categoria
 END
+GO
+
+-- =============================================
+-- Agregar producto al carrito
+-- =============================================
+CREATE PROCEDURE AgregarProductoAlCarrito
+    @IdUsuario INT,
+    @IdProducto INT,
+    @Cantidad INT
+AS
+BEGIN
+    DECLARE @IdCarrito INT;
+
+    -- Buscar carrito existente del usuario
+    SELECT @IdCarrito = IdCarrito FROM Carrito WHERE IdUsuario = @IdUsuario;
+
+    -- Si no existe, crearlo
+    IF @IdCarrito IS NULL
+    BEGIN
+        INSERT INTO Carrito (IdUsuario) VALUES (@IdUsuario);
+        SET @IdCarrito = SCOPE_IDENTITY();
+    END
+
+    -- Insertar o actualizar producto en el carrito
+    IF EXISTS (
+        SELECT 1 FROM CarritoProducto
+        WHERE IdCarrito = @IdCarrito AND IdProducto = @IdProducto
+    )
+    BEGIN
+        UPDATE CarritoProducto
+        SET Cantidad = Cantidad + @Cantidad
+        WHERE IdCarrito = @IdCarrito AND IdProducto = @IdProducto;
+    END
+    ELSE
+    BEGIN
+        INSERT INTO CarritoProducto (IdCarrito, IdProducto, Cantidad)
+        VALUES (@IdCarrito, @IdProducto, @Cantidad);
+    END
+END;
+GO
+
+-- =============================================
+-- Crear orden desde carrito
+-- =============================================
+CREATE PROCEDURE CrearOrdenDesdeCarrito
+    @IdUsuario INT
+AS
+BEGIN
+    DECLARE @IdCarrito INT;
+    DECLARE @Total FLOAT = 0;
+
+    SELECT @IdCarrito = IdCarrito FROM Carrito WHERE IdUsuario = @IdUsuario;
+
+    IF @IdCarrito IS NULL
+    BEGIN
+        RAISERROR('El usuario no tiene un carrito.', 16, 1);
+        RETURN;
+    END
+
+    -- Calcular total
+    SELECT @Total = SUM(cp.Cantidad * p.precio)
+    FROM CarritoProducto cp
+    JOIN Producto p ON cp.IdProducto = p.id_producto
+    WHERE cp.IdCarrito = @IdCarrito;
+
+    -- Crear orden
+    INSERT INTO Orden (IdUsuario, Total, Estado)
+    VALUES (@IdUsuario, @Total, 'Pendiente');
+
+    DECLARE @IdOrden INT = SCOPE_IDENTITY();
+
+    -- Insertar detalles
+    INSERT INTO OrdenDetalle (IdOrden, IdProducto, Cantidad, PrecioUnitario)
+    SELECT @IdOrden, IdProducto, Cantidad, p.precio
+    FROM CarritoProducto cp
+    JOIN Producto p ON cp.IdProducto = p.id_producto
+    WHERE cp.IdCarrito = @IdCarrito;
+
+    -- Limpiar carrito
+    DELETE FROM CarritoProducto WHERE IdCarrito = @IdCarrito;
+    DELETE FROM Carrito WHERE IdCarrito = @IdCarrito;
+END;
 GO
