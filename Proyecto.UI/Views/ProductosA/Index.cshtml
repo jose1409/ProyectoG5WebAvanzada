@@ -1,86 +1,113 @@
 ﻿@model IEnumerable<Proyecto.UI.Models.Producto>
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Productos";
 }
 
-<h1>Productos</h1>
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin-productos.css" asp-append-version="true" />
+}
 
-<p>
-    <button class="btn btn-sm btn-primary btnAgregarProducto"
-            data-edicion="false"
-            data-toggle="modal"
-            data-target="#ActualizarProductoModal">
-        Agregar nuevo Producto
-    </button>
-</p>
+<div class="admin-botero">
+    <div class="contenido-centrado">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
-            <th>@Html.DisplayNameFor(model => model.IdCategoria)</th>
-            <th>@Html.DisplayNameFor(model => model.Precio)</th>
-            <th>@Html.DisplayNameFor(model => model.Detalle)</th>
-            <th>@Html.DisplayNameFor(model => model.RutaImagen)</th>
-            <th>@Html.DisplayNameFor(model => model.Existencias)</th>
-            <th>@Html.DisplayNameFor(model => model.Activo)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.IdProducto</td>
-                <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
-                <td>
-                    @{
-                        var categoria = ((IEnumerable<Proyecto.UI.Models.Categoria>)ViewBag.Categorias)
-                        .FirstOrDefault(c => c.IdCategoria == item.IdCategoria);
-                    }
-                    @(categoria != null ? categoria.Descripcion : "Sin categoría")
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Precio)</td>
-                <td>@Html.DisplayFor(modelItem => item.Detalle)</td>
-                <td>
-                    @if (item.RutaImagen != null && item.RutaImagen.Length > 0)
+        <!-- Encabezado -->
+        <div class="admin-header">
+            <h1 class="admin-title">Productos</h1>
+
+            <button class="btn btn-sm btn-botero-primary btnAgregarProducto"
+                    data-edicion="false"
+                    data-toggle="modal"
+                    data-target="#ActualizarProductoModal">
+                Agregar nuevo Producto
+            </button>
+        </div>
+
+        <!-- Tabla estilo tarjetas -->
+        <div class="table-wrapper">
+            <table class="table table-botero">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
+                        <th>@Html.DisplayNameFor(model => model.IdCategoria)</th>
+                        <th>@Html.DisplayNameFor(model => model.Precio)</th>
+                        <th>@Html.DisplayNameFor(model => model.Detalle)</th>
+                        <th>@Html.DisplayNameFor(model => model.RutaImagen)</th>
+                        <th>@Html.DisplayNameFor(model => model.Existencias)</th>
+                        <th>@Html.DisplayNameFor(model => model.Activo)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
                     {
-                        var imagenBase64 = "data:image/png;base64," + Convert.ToBase64String(item.RutaImagen);
-                        <img src="@imagenBase64" alt="Imagen" style="width: 80px; height: auto;" />
+                        var tieneImg = item.RutaImagen != null && item.RutaImagen.Length > 0;
+                        var imagenBase64 = tieneImg ? "data:image/png;base64," + Convert.ToBase64String(item.RutaImagen) : null;
+
+                        <tr>
+                            <td>@item.IdProducto</td>
+                            <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                            <td>
+                                @{
+                                    var categoria = ((IEnumerable<Proyecto.UI.Models.Categoria>)ViewBag.Categorias)
+                                    .FirstOrDefault(c => c.IdCategoria == item.IdCategoria);
+                                }
+                                @(categoria != null ? categoria.Descripcion : "Sin categoría")
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Precio)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Detalle)</td>
+                            <td>
+                                @if (tieneImg)
+                                {
+                                    <img src="@imagenBase64" alt="Imagen de @item.Descripcion" class="thumb" />
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Sin imagen</span>
+                                }
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Existencias)</td>
+                            <td>
+                                @if (item.Activo)
+                                {
+                                    <span class="badge-estado badge-activo">Activo</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-estado badge-inactivo">Inactivo</span>
+                                }
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-botero-primary btnEditarProducto"
+                                        data-id="@item.IdProducto"
+                                        data-descripcion="@item.Descripcion"
+                                        data-precio="@item.Precio"
+                                        data-detalle="@item.Detalle"
+                                        data-categoria="@item.IdCategoria"
+                                        data-imagen="data:image/png;base64,@Convert.ToBase64String(item.RutaImagen ?? new byte[0])"
+                                        data-activo="@item.Activo"
+                                        data-edicion="true"
+                                        data-toggle="modal"
+                                        data-target="#ActualizarProductoModal">
+                                    Editar
+                                </button>
+                                |
+                                @Html.ActionLink("Eliminar", "EliminarProducto", new { idProducto = item.IdProducto }, new { @class = "btn-botero-link" })
+                            </td>
+                        </tr>
                     }
-                    else
-                    {
-                        <span class="text-muted">Sin imagen</span>
-                    }
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Existencias)</td>
-                <td>@(item.Activo ? "Activo" : "Inactivo")</td>
-                <td>
-                    <button class="btn btn-sm btn-primary btnEditarProducto"
-                            data-id="@item.IdProducto"
-                            data-descripcion="@item.Descripcion"
-                            data-precio="@item.Precio"
-                            data-detalle="@item.Detalle"
-                            data-categoria="@item.IdCategoria"
-                            data-imagen="data:image/png;base64,@Convert.ToBase64String(item.RutaImagen ?? new byte[0])"
-                            data-activo="@item.Activo"
-                            data-edicion="true"
-                            data-toggle="modal"
-                            data-target="#ActualizarProductoModal">
-                        Editar
-                    </button> |
-                    @Html.ActionLink("Eliminar", "EliminarProducto", new { idProducto = item.IdProducto })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <!-- Modal para Crear/Editar Producto -->
-<div class="modal fade" id="ActualizarProductoModal" tabindex="-1" role="dialog" aria-labelledby="modalProductoLabel" aria-hidden="true">
+<div class="modal fade modal-botero" id="ActualizarProductoModal" tabindex="-1" role="dialog" aria-labelledby="modalProductoLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+
             <div class="modal-header">
                 <h5 class="modal-title">Producto</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
@@ -118,9 +145,9 @@
                 </div>
 
                 <div class="form-group">
-                    <div style="display: inline-flex; align-items: center;">
+                    <div class="file-row">
                         <input type="file" id="ImagenGrid" name="ImagenUrl" onchange="previewImageGrids(this)">
-                        <div id="previewImagen" style="display: block">
+                        <div id="previewImagen">
                             <span class="text-muted">Sin imagen</span>
                         </div>
                     </div>
@@ -140,7 +167,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" id="btnGuardarModalProducto" class="btn btn-primary">Guardar</button>
+                <button type="button" id="btnGuardarModalProducto" class="btn btn-botero-primary">Guardar</button>
             </div>
         </div>
     </div>
