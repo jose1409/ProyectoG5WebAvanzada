@@ -1,4 +1,4 @@
-﻿/* === Estilos para vista de Productos === */
+﻿
 .contenido-centrado {
     max-width: 1200px;
     margin: 0 auto;
@@ -14,7 +14,7 @@
     align-items: stretch;
 }
 
-/* Encabezado */
+
 .admin-header {
     display: flex;
     align-items: center;
@@ -30,7 +30,6 @@
     margin: 0;
 }
 
-/* Botones */
 .btn-botero-primary {
     background-color: #993bb9;
     color: #fff !important;
