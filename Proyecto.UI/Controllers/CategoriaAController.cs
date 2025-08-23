@@ -84,10 +84,12 @@ namespace Proyecto.UI.Controllers
             var resultado = _categoriaRepository.EliminarCategoria(idCategoria);
             if(resultado)
             {
+                TempData["Mensaje"] = "La categoría se eliminó correctamente.";
                 return RedirectToAction("Index", "CategoriaA");
             } else
             {
-                return View();
+                TempData["Error"] = "No se puede eliminar la categoría porque tiene productos asociados.";
+                return RedirectToAction("Index", "CategoriaA");
             }
         }
     }
