@@ -1,7 +1,10 @@
 ﻿using System.Data;
+using System.Linq;
+using System.Collections.Generic;
 using API.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace API.Repository.ProductoRepository
 {
@@ -58,10 +61,8 @@ namespace API.Repository.ProductoRepository
             using (var conexion = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
                 var resultado = conexion.Execute(
-                    "EliminarProducto", new
-                    {
-                        idProducto
-                    },
+                    "EliminarProducto",
+                    new { idProducto },
                     commandType: CommandType.StoredProcedure
                 );
                 return resultado > 0;
@@ -72,7 +73,10 @@ namespace API.Repository.ProductoRepository
         {
             using (var contexto = new SqlConnection(_configuration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                var resultado = contexto.Query<Producto>("ObtenerProductos", commandType: CommandType.StoredProcedure).ToList();
+                var resultado = contexto.Query<Producto>(
+                    "ObtenerProductos",
+                    commandType: CommandType.StoredProcedure
+                ).ToList();
                 return resultado;
             }
         }
